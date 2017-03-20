@@ -1,10 +1,10 @@
 package configconnector
 
 import (
-	"testing"
+	"test"
 )
 
-const TESTVALUES = map[string]map[string]string{
+var TESTVALUES = map[string]map[string]string{
 	"one": map[string]string{
 		"A": "A",
 		"B": "B",

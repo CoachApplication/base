@@ -1,13 +1,13 @@
 package standard
 
 import (
-	api "github.com/james-nesbitt/coach-api"
 	"fmt"
+	api "github.com/james-nesbitt/coach-api"
 )
 
 //Operations Operations implementation that maintains an ordered list
 type Operations struct {
-	oMap map[string]api.Operation
+	oMap   map[string]api.Operation
 	oOrder []string
 }
 
@@ -41,6 +41,7 @@ func (so *Operations) Add(op api.Operation) error {
 		so.oOrder = append(so.oOrder, key)
 	}
 	so.oMap[key] = op
+	return nil
 }
 
 // Get retrieves an operation from the list by string key
@@ -54,7 +55,7 @@ func (so *Operations) Get(key string) (api.Operation, error) {
 }
 
 // List retrieves an ordered string list of operation keys
-func (so *Operations) List() []string {
+func (so *Operations) Order() []string {
 	so.safe()
 	return so.oOrder
 }

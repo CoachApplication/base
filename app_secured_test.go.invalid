@@ -5,36 +5,6 @@ import (
 	api "github.com/james-nesbitt/coach-api"
 )
 
-type SecuredApplication struct {
-	Application
-
-	authOp api.Operation
-	authOpPropId string
-	authOpSuccessPropId string
-}
-
-// NewSecuredApplication Constructor for SecuredApplication
-func NewSecuredApplication(authOp api.Operation, authOpPropId string, authOpSuccessPropId string) *SecuredApplication {
-	return &SecuredApplication{
-		authOp: authOp,
-		authOpPropId: authOpPropId,
-		authOpSuccessPropId: authOpSuccessPropId,
-	}
-}
-
-func (sa *SecuredApplication) Operations() api.Operations {
-	ops := NewOperations()
-
-	targetOps := sa.Application.Operations()
-	for _, opId := range targetOps.Order() {
-		targetOp, _ := targetOps.Get(opId)
-		authorizedOp := NewAuthorizingDecoratorOperation(targetOp, sa.authOp, sa.authOpPropId, sa.authOpSuccessPropId)
-		ops.Add(api.Operation(authorizedOp))
-	}
-
-	return ops.Operations()
-}
-
 /**
  * SecuredApplication Decorating Operation for authentication
  */
@@ -42,9 +12,9 @@ func (sa *SecuredApplication) Operations() api.Operations {
 // AuthorizingDecoratorOperation An operation which decorates another operation and Authorizes before running the Exec()
 type AuthorizingDecoratorOperation struct {
 	targetOp api.Operation
-	authOp api.Operation
+	authOp   api.Operation
 
-	authOpPropertyId string
+	authOpPropertyId      string
 	authSuccessPropertyId string
 }
 
@@ -52,16 +22,16 @@ type AuthorizingDecoratorOperation struct {
 // The ops list is expected to contain any Operation objects needed to authorize.
 func NewAuthorizingDecoratorOperation(op api.Operation, authOp api.Operation, authOpPropertyId string, authSuccessPropertyId string) *AuthorizingDecoratorOperation {
 	return &AuthorizingDecoratorOperation{
-		targetOp: op,
-		authOp: authOp,
-		authOpPropertyId: authOpPropertyId,
+		targetOp:              op,
+		authOp:                authOp,
+		authOpPropertyId:      authOpPropertyId,
 		authSuccessPropertyId: authSuccessPropertyId,
 	}
 }
 
 // Id Provide a unique machine string identifier
 func (ado *AuthorizingDecoratorOperation) Id() string {
-
+	return "I.am.The.Authorizind.Decorator" //ado.targetOp.Id()
 }
 
 // Ui Define UI elements for the Operation
@@ -87,11 +57,12 @@ func (ado *AuthorizingDecoratorOperation) Properties() api.Properties {
 }
 
 // Validate That the Operation can properly Execute and Authorize
-func (ado *AuthorizingDecoratorOperation) Validate(props api.Properties) api.Result {
+func (ado *AuthorizingDecoratorOperation) Validate() api.Result {
 	res := NewResult()
 
-	successProp, successPropFound := props.Get(ado.authSuccessPropertyId)
-	operationProp, operationPropFound := props.Get(ado.authOpPropertyId)
+	authProps := ado.authOp.Properties()
+	successProp, successPropFound := authProps.Get(ado.authSuccessPropertyId)
+	operationProp, operationPropFound := authProps.Get(ado.authOpPropertyId)
 
 	if successPropFound != nil || successProp.Type() != "bool" {
 		// this authorization op is not valid, it is either missing its op or success property
@@ -127,8 +98,9 @@ func (ado *AuthorizingDecoratorOperation) Validate(props api.Properties) api.Res
 func (ado *AuthorizingDecoratorOperation) Exec(props api.Properties) api.Result {
 	res := NewResult()
 
-	successProp, successPropFound := props.Get(ado.authSuccessPropertyId)
-	operationProp, operationPropFound := props.Get(ado.authOpPropertyId)
+	authProps := ado.authOp.Properties()
+	successProp, successPropFound := authProps.Get(ado.authSuccessPropertyId)
+	operationProp, operationPropFound := authProps.Get(ado.authOpPropertyId)
 
 	if successPropFound != nil || operationPropFound != nil || successProp.Type() != "bool" {
 		// this authorization op is not valid, it is either missing its op or success property
@@ -168,7 +140,7 @@ func (ado *AuthorizingDecoratorOperation) Exec(props api.Properties) api.Result 
 			} else {
 				// The Auth op returned a FALSE success value
 				res.MarkFailed()
-				res.AddError(errors.New("Authorization failed.  You are not permitted to execute the requested operation: " + op.authorized.Id()))
+				res.AddError(errors.New("Authorization failed.  You are not permitted to execute the requested operation: " + ado.Id()))
 			}
 		}
 
@@ -176,4 +148,125 @@ func (ado *AuthorizingDecoratorOperation) Exec(props api.Properties) api.Result 
 
 	res.MarkFinished()
 	return res.Result()
+}
+
+/**
+ * Testing Authorizing Op
+ */
+
+type TestAuthOperation struct {
+	Allow bool
+}
+
+func NewAuthOperation(Allow bool) *TestAuthOperation {
+	return &TestAuthOperation{Allow: Allow}
+}
+func (tao *TestAuthOperation) Id() string {
+	return "test.authorize.operation"
+}
+func (tao *TestAuthOperation) Ui() api.Ui {
+	return NewUi(tao.Id(), "", "", "").Ui()
+}
+func (tao *TestAuthOperation) Usage() api.Usage {
+	return (&InternalOperationUsage{}).Usage()
+}
+func (tao *TestAuthOperation) Properties() api.Properties {
+	ops := NewProperties()
+
+	ops.Add(NewTestAuthOperationProperty(nil).Property())
+
+	return ops.Properties()
+}
+func (tao *TestAuthOperation) Validate() api.Result {
+	return MakeSuccessfulResult()
+}
+func (tao *TestAuthOperation) Exec(props api.Properties) api.Result {
+	res := NewResult()
+
+	res.Properties().Add(NewTestAuthSuccessProperty(tao.Allow).Property())
+
+	fmt.Print("PROPERTIES:", res.Properties())
+	res.MarkSucceeded()
+	res.MarkFinished()
+	return res.Result()
+}
+
+type TestAuthSuccessProperty struct {
+	val bool
+}
+
+func NewTestAuthSuccessProperty(allow bool) *TestAuthSuccessProperty {
+	prop := &TestAuthSuccessProperty{}
+	prop.Set(allow)
+	return prop
+}
+func (tasp *TestAuthSuccessProperty) Property() api.Property {
+	return api.Property(tasp)
+}
+func (tasp *TestAuthSuccessProperty) Type() string {
+	return "bools"
+}
+func (tasp *TestAuthSuccessProperty) Id() string {
+	return "test.authorization.success"
+}
+func (tasp *TestAuthSuccessProperty) Usage() api.Usage {
+	return (&ReadonlyPropertyUsage{}).Usage()
+}
+func (tasp *TestAuthSuccessProperty) Ui() api.Ui {
+	return NewUi(tasp.Id(), "Authorization success", "", "").Ui()
+}
+func (tasp *TestAuthSuccessProperty) Validate() api.Result {
+	return MakeSuccessfulResult()
+}
+func (tasp *TestAuthSuccessProperty) Set(val interface{}) error {
+	if forcedVal, err := val.(bool); err {
+		tasp.val = forcedVal
+		return nil
+	} else {
+		return errors.New("Incorrect value type assigned to TestAuthSuccessProperty.  Expected boolean")
+	}
+}
+func (tasp *TestAuthSuccessProperty) Get() interface{} {
+	return interface{}(tasp.val)
+}
+
+type TestAuthOperationProperty struct {
+	val api.Operation
+}
+
+func NewTestAuthOperationProperty(op api.Operation) *TestAuthOperationProperty {
+	prop := &TestAuthOperationProperty{}
+	if op != nil {
+		prop.Set(op)
+	}
+	return prop
+}
+func (taop *TestAuthOperationProperty) Property() api.Property {
+	return api.Property(taop)
+}
+func (taop *TestAuthOperationProperty) Id() string {
+	return "test.authorization.operation"
+}
+func (taop *TestAuthOperationProperty) Type() string {
+	return "coach.Property"
+}
+func (taop *TestAuthOperationProperty) Usage() api.Usage {
+	return (&ReadonlyPropertyUsage{}).Usage()
+}
+func (taop *TestAuthOperationProperty) Ui() api.Ui {
+	return NewUi(taop.Id(), "Authorization success", "", "").Ui()
+}
+func (taop *TestAuthOperationProperty) Validate() api.Result {
+	return MakeSuccessfulResult()
+}
+func (taop *TestAuthOperationProperty) Set(val interface{}) error {
+	if forcedVal, err := val.(api.Operation); err {
+		taop.val = forcedVal
+		return nil
+	} else {
+		return errors.New("Incorrect value type assigned to TestAuthSuccessProperty.  Expected api.Operation")
+	}
+}
+func (taop *TestAuthOperationProperty) Get() interface{} {
+	return interface{}(taop.val)
 }

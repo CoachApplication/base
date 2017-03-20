@@ -12,7 +12,7 @@ func TestNewResult(t *testing.T) {
 	res := NewResult()
 
 	var i interface{} = res
-	if _, isResult:= i.(api.Result); !isResult {
+	if _, isResult := i.(api.Result); !isResult {
 		t.Error("NewResult did not provide a struct which is a valid api.Result implementation", res)
 	}
 }
@@ -21,7 +21,7 @@ func TestNewResult(t *testing.T) {
 func TestResult_AddProperty(t *testing.T) {
 	res := NewResult()
 
-	newProp := api.Property(&testPropertyOne{})
+	newProp := NewTestProperty("test.1", "", "", "", nil).Property()
 	newProp.Set(interface{}("one")) // we don't test the set/get here, do that in the property_test.go
 
 	res.AddProperty(newProp)
@@ -90,13 +90,13 @@ func TestResult_MarkSucceeded(t *testing.T) {
 func TestResult_Merge(t *testing.T) {
 	res := NewResult()
 	res.AddError(errors.New("one"))
-	res.AddProperty(api.Property(&testPropertyOne{}))
+	res.AddProperty(NewTestProperty("test.1", "", "", "", nil).Property())
 
 	merge := NewResult()
 	merge.AddError(errors.New("two"))
-	merge.AddProperty(api.Property(&testPropertyTwo{}))
+	merge.AddProperty(NewTestProperty("test.2", "", "", "", nil).Property())
 
-	res.Merge(api.Result(merge))
+	res.Merge(merge.Result())
 
 	errs := res.Errors()
 	if len(errs) != 2 {
@@ -104,6 +104,6 @@ func TestResult_Merge(t *testing.T) {
 	}
 	props := res.Properties()
 	if len(props.Order()) != 2 {
-		t.Error("Result did not merge properties properly")
+		t.Error("Result did not merge properties properly", props.Order())
 	}
 }

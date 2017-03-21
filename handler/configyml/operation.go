@@ -1,43 +1,46 @@
 package configyml
 
+import (
+	coach_api "github.com/james-nesbitt/coach-api"
+	coach_base "github.com/james-nesbitt/coach-base"
+	coach_base_config "github.com/james-nesbitt/coach-base/operation/configuration"
+	handler_configconnector "github.com/james-nesbitt/coach-base/handler/configconnector"
+)
+
 // ConfigConnectorOperations return three operations from a config connect, the Get, Set and List operations
-func YmlConfigConnectorOperations(cc *ConfigConnector) (api_operation.Operations) {
-	ops := api_operation.SimpleOperations{}
+func YmlConfigConnectorOperations(cc *handler_configconnector.ConfigConnector) coach_api.Operations {
+	ops := coach_base.NewOperations()
 
-	base := handler_configconnector.OperationBase{connector: cc}
+	base := handler_configconnector.NewOperationBase(cc)
 
-	ops.add(api_operation.Operation(&GetOperation{OperationBase: *base}))
-	ops.add(api_operation.Operation(&ListOperation{OperationBase: *base}))
+	ops.Add(coach_api.Operation(&GetOperation{OperationBase: *base}))
+	ops.Add(coach_api.Operation(&ListOperation{OperationBase: *base}))
 
-	return api_operation.Operations(ops)
+	return ops.Operations()
 }
-
 
 // ListOperation list all configs for a config-connector
 type ListOperation struct {
-	api_base_config.ListOperation
+	coach_base_config.ListOperation
 	handler_configconnector.OperationBase
 }
 
 // Exec runs the List operation
-func (lo *ListOperation) Exec(props api_property.Properties) api_result.Result {
-	res := api_result.SimpleResult{}
+func (lo *ListOperation) Exec(props coach_api.Properties) coach_api.Result {
+	res := coach_base.NewResult()
 
-
-
-	return api_result.Result(res)	
+	return res.Result()
 }
-
 
 // GetOperation Retrieve a scoped-config for config-connector
 type GetOperation struct {
-	api_base_config.GetOperation
+	coach_base_config.GetOperation
 	handler_configconnector.OperationBase
 }
 
 // Exec runs the Get operation
-func (go *GetOperation) Exec(props api_property.Properties) api_result.Result {
-	res := api_result.SimpleResult{}
+func (gon *GetOperation) Exec(props coach_api.Properties) coach_api.Result {
+	res := coach_base.NewResult()
 
-	return api_result.Result(res)
+	return res.Result()
 }

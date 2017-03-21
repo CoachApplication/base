@@ -4,6 +4,6 @@ import (
 	"testing"
 )
 
-function FileConnectorReadTest(t *testing.T) {
+func FileConnectorReadTest(t *testing.T) {
 
 }

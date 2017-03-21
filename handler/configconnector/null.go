@@ -1,6 +1,11 @@
 package configconnector
 
-type NullConfigConnector struct {}
+import (
+	"bytes"
+	"io"
+)
+
+type NullConfigConnector struct{}
 
 // List lists all configs
 func (ncc *NullConfigConnector) List() []string {
@@ -13,12 +18,12 @@ func (ncc *NullConfigConnector) ListScopes(key string) []string {
 }
 
 // Get retrieves ScopedConfig for the Config Get operation
-func (ncc *NullConfigConnector) Get(key string, scope string) (io.ReaderCloser, error) {
+func (ncc *NullConfigConnector) Get(key string, scope string) (io.ReadCloser, error) {
 	return NewBufferReaderCloser([]byte{}), nil
 }
 
-// Set Pushes provide ScopedConfig to a 
-func (ncc *NullConfigConnector) Set(key string, scope string, io.ReaderCloser) error {
+// Set Pushes provide ScopedConfig to a
+func (ncc *NullConfigConnector) Set(key string, scope string, readcloser io.ReadCloser) error {
 	return nil
 }
 
@@ -33,10 +38,9 @@ type BufferReaderCloser struct {
 
 func NewBufferReaderCloser(b []byte) *BufferReaderCloser {
 	return &BufferReaderCloser{
-		Buffer: bytes.NewBuffer(b)
+		Buffer: *(bytes.NewBuffer(b)),
 	}
 }
-
 
 // Close emulate a Close() to implement ReaderCloser
 func (brc *BufferReaderCloser) Close() error {

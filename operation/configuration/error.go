@@ -20,7 +20,7 @@ func (snf *ScopeNotFoundError) Error() string {
 }
 
 // ScopeNoteWriteableError is an Error that says that the config scope cannot be written to
-type ScopeNotWriteableError struct {}
+type ScopeNotWriteableError struct{}
 
 // Error returns an error string (Error interface)
 func (snw ScopeNotWriteableError) Error() string {

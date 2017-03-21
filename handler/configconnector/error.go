@@ -1,5 +1,8 @@
 package configconnector
 
+import (
+	"fmt"
+)
 
 /**
  * Errors
@@ -7,7 +10,7 @@ package configconnector
 
 // KeyNotFoundError Error for when a config was not found for a config key
 type KeyNotFoundError struct {
-	Key string	
+	Key string
 }
 
 // Error string output for error (interface: Error)
@@ -17,7 +20,7 @@ func (knfe KeyNotFoundError) Error() string {
 
 // ScopeNotFoundError Error for when a config scope was not found for a config key
 type ScopeNotFoundError struct {
-	Key string
+	Key   string
 	Scope string
 }
 
@@ -28,7 +31,7 @@ func (snfe ScopeNotFoundError) Error() string {
 
 // SetError Error for when a connector failed to save
 type SetError struct {
-	Key string
+	Key   string
 	Scope string
 }
 
@@ -39,7 +42,7 @@ func (se SetError) Error() string {
 
 // GetError Error for when a config fails to retrieve
 type GetError struct {
-	Key string
+	Key   string
 	Scope string
 }
 

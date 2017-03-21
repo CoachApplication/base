@@ -1,8 +1,14 @@
 package configconnector
 
-// OperationBase a base operation that holds a ConfigConector
-type OperationBase {
+// OperationBase a operation operation that holds a ConfigConector
+type OperationBase struct {
 	connector *ConfigConnector
+}
+
+func NewOperationBase(cc ConfigConnector) *OperationBase {
+	return &OperationBase{
+		connector: cc,
+	}
 }
 
 // ConfigConnector retrieves a ConfigConnector

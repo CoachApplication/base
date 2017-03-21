@@ -19,6 +19,11 @@ func NewApplication(builders api.Builders) *Application {
 	}
 }
 
+// Application explicitly convert this to an api.Application interface
+func (sa *Application) Application() api.Application {
+	return api.Application(sa)
+}
+
 // AddBuilder Add a new builder to the application
 func (sa *Application) AddBuilder(builder api.Builder) {
 	sa.builders.Add(builder)

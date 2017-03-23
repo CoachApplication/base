@@ -14,12 +14,12 @@ type ExternalOperationUsage struct {
 }
 
 // Usage Explicitly convert this struct to an api.Usage interface
-func (eou *ExternalOperationUsage) Usage() api.Usage {
+func (eou ExternalOperationUsage) Usage() api.Usage {
 	return api.Usage(eou)
 }
 
 // Allows return bool for if the Usage says that a certain key is allowed
-func (eou *ExternalOperationUsage) Allows(key string) bool {
+func (eou ExternalOperationUsage) Allows(key string) bool {
 	val, _ := map[string]bool{
 		api.UsageOperationPublicView:    true,
 		api.UsageOperationPublicExecute: true,
@@ -33,12 +33,12 @@ type InternalOperationUsage struct {
 }
 
 // Usage Explicitly convert this struct to an api.Usage interface
-func (iou *InternalOperationUsage) Usage() api.Usage {
+func (iou InternalOperationUsage) Usage() api.Usage {
 	return api.Usage(iou)
 }
 
 // Allows return bool for if the Usage says that a certain key is allowed
-func (iou *InternalOperationUsage) Allows(key string) bool {
+func (iou InternalOperationUsage) Allows(key string) bool {
 	val, _ := map[string]bool{
 		api.UsageOperationPublicView:    false,
 		api.UsageOperationPublicExecute: false,
@@ -56,12 +56,12 @@ type InternalPropertyUsage struct {
 }
 
 // Usage Explicitly convert this struct to an api.Usage interface
-func (ipu *InternalPropertyUsage) Usage() api.Usage {
+func (ipu InternalPropertyUsage) Usage() api.Usage {
 	return api.Usage(ipu)
 }
 
 // Allows return bool for if the Usage says that a certain key is allowed
-func (ipu *InternalPropertyUsage) Allows(key string) bool {
+func (ipu InternalPropertyUsage) Allows(key string) bool {
 	val, _ := map[string]bool{
 		api.UsagePropertyPublicView:     false,
 		api.UsagePropertyPublicWrite:    false,
@@ -76,12 +76,12 @@ type ReadonlyPropertyUsage struct {
 }
 
 // Usage Explicitly convert this struct to an api.Usage interface
-func (rpu *ReadonlyPropertyUsage) Usage() api.Usage {
+func (rpu ReadonlyPropertyUsage) Usage() api.Usage {
 	return api.Usage(rpu)
 }
 
 // Allows return bool for if the Usage says that a certain key is allowed
-func (rpu *ReadonlyPropertyUsage) Allows(key string) bool {
+func (rpu ReadonlyPropertyUsage) Allows(key string) bool {
 	val, _ := map[string]bool{
 		api.UsagePropertyPublicView:     true,
 		api.UsagePropertyPublicWrite:    false,
@@ -96,12 +96,12 @@ type OptionalPropertyUsage struct {
 }
 
 // Usage Explicitly convert this struct to an api.Usage interface
-func (opu *OptionalPropertyUsage) Usage() api.Usage {
+func (opu OptionalPropertyUsage) Usage() api.Usage {
 	return api.Usage(opu)
 }
 
 // Allows return bool for if the Usage says that a certain key is allowed
-func (opu *OptionalPropertyUsage) Allows(key string) bool {
+func (opu OptionalPropertyUsage) Allows(key string) bool {
 	val, _ := map[string]bool{
 		api.UsagePropertyPublicView:     true,
 		api.UsagePropertyPublicWrite:    true,
@@ -116,12 +116,12 @@ type RequiredPropertyUsage struct {
 }
 
 // Usage Explicitly convert this struct to an api.Usage interface
-func (rpu *RequiredPropertyUsage) Usage() api.Usage {
+func (rpu RequiredPropertyUsage) Usage() api.Usage {
 	return api.Usage(rpu)
 }
 
 // Allows return bool for if the Usage says that a certain key is allowed
-func (rpu *RequiredPropertyUsage) Allows(key string) bool {
+func (rpu RequiredPropertyUsage) Allows(key string) bool {
 	val, _ := map[string]bool{
 		api.UsagePropertyPublicView:     true,
 		api.UsagePropertyPublicWrite:    true,

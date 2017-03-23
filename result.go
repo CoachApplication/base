@@ -17,21 +17,22 @@ type Result struct {
 	errors  []error
 	success bool
 
-	finished []chan bool
+	finTellers   []chan bool
+	finListeners int
+	finMarker    bool
 
 	properties Properties
-
-	waiting int // How many merged results have open finished channels
 }
 
 // NewResult constructs a new Result
 func NewResult() *Result {
 	return &Result{
-		errors:     []error{},
-		success:    true, // default to successful
-		finished:   []chan bool{},
-		properties: *NewProperties(),
-		waiting:    0,
+		errors:       []error{},
+		success:      true, // default to successful
+		finTellers:   []chan bool{},
+		finListeners: 0,
+		finMarker:    false,
+		properties:   *NewProperties(),
 	}
 }
 
@@ -51,9 +52,14 @@ func (sr *Result) Errors() []error {
 
 // Finished returns a tracking bool channel that can be used to mark when the operation is completed
 func (sr *Result) Finished() chan bool {
-	finished := make(chan bool)
-	sr.finished = append(sr.finished, finished)
-	return finished
+	fin := make(chan bool)
+
+	if sr.finMarker {
+		// we are already closed
+		go func(finished chan bool) { finished <- true }(fin)
+	}
+	sr.finTellers = append(sr.finTellers, fin)
+	return fin
 }
 
 // Success returns a boolean success value
@@ -91,25 +97,29 @@ func (sr *Result) MarkSucceeded() {
 }
 
 // MarkFinished marks this result operations as completed
-func (sr *Result) MarkFinished() {
-	finishedList := sr.finished
-	sr.finished = []chan bool{}
-	go func(finishedList []chan bool) {
-		for _, eachFinished := range finishedList {
-			eachFinished <- true
-			close(eachFinished)
-		}
-	}(finishedList)
+func (sr *Result) MarkFinished() int {
+	sr.finMarker = true
+	count := 0
+	for _, fin := range sr.finTellers {
+		count++
+		go func(fin chan bool) {
+			fin <- true
+		}(fin)
+	}
+	return count
 }
 
 // Merge a result into this result
-func (sr *Result) Merge(merge api.Result) {
-	//sr.waiting = sr.waiting + 1
-	//go func() {
-	//	<-merge.Finished()
-	//	sr.waiting = sr.waiting - 1
-	//	sr.MarkFinished()
-	//}()
+func (sr *Result) Merge(merge api.Result) error {
+	fin := merge.Finished()
+	sr.finListeners++
+	go func(fin chan bool) {
+		<-fin
+		sr.finListeners--
+		if sr.finListeners == 0 {
+			sr.MarkFinished()
+		}
+	}(fin)
 
 	if !merge.Success() {
 		sr.MarkFailed()
@@ -120,4 +130,6 @@ func (sr *Result) Merge(merge api.Result) {
 	for _, err := range merge.Errors() {
 		sr.AddError(err)
 	}
+
+	return nil
 }

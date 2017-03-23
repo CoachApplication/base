@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	api "github.com/james-nesbitt/coach-api"
+	"time"
 )
 
 // TestNewResult Test that the NewResult() function returns a struct that implements the api.Result interface
@@ -61,11 +62,6 @@ func TestResult_AddError(t *testing.T) {
 	}
 }
 
-// TestResult_MarkFinished Test that if we mark a result as finished, that it says that it is finished
-func TestResult_MarkFinished(t *testing.T) {
-	// @TODO research how to prevent blocking in a chan during testing
-}
-
 // TestResult_MarkFailed Test that if we mark a Result as failed, then it returns a negative Success()
 func TestResult_MarkFailed(t *testing.T) {
 	res := NewResult()
@@ -105,5 +101,96 @@ func TestResult_Merge(t *testing.T) {
 	props := res.Properties()
 	if len(props.Order()) != 2 {
 		t.Error("Result did not merge properties properly", props.Order())
+	}
+}
+
+// TestResult_Merge Test that if we merge a Result into a Result, that it the chans work properly
+func TestResult_Merge_Finished(t *testing.T) { // use this delay to prevent timeout failures if our chans fail to close
+	delay, _ := time.ParseDuration("1s")
+	timeout := time.After(delay)
+	now := time.Now()
+
+	res := NewResult()
+
+	merge1 := NewResult()
+	merge2 := NewResult()
+
+	res.Merge(merge1.Result())
+	res.Merge(merge2.Result())
+
+	fin := res.Finished()
+
+	merge1.MarkFinished()
+	merge2.MarkFinished()
+
+	select {
+	case <-fin:
+		t.Log("Channel closed properly")
+	case <-timeout:
+		t.Error("Our opened finished channel failed to close after we finished all of the merged results.", time.Since(now))
+	}
+
+}
+
+func TestResult_MarkFinished_Single(t *testing.T) {
+	// use this delay to prevent timeout failures if our chans fail to close
+	delay, _ := time.ParseDuration("1s")
+	timeout := time.After(delay)
+	now := time.Now()
+
+	res := NewResult()
+	fin := res.Finished()
+
+	res.MarkFinished()
+
+	select {
+	case <-fin:
+		t.Log("Channel closed properly")
+	case <-timeout:
+		t.Error("Our opened finished channel failed to close after we marked the result finished.", time.Since(now))
+	}
+}
+
+func TestResult_MarkFinished_Multi(t *testing.T) { // use this delay to prevent timeout failures if our chans fail to close
+	delay, _ := time.ParseDuration("1s")
+	timeout := time.After(delay)
+	now := time.Now()
+
+	res := NewResult()
+
+	pre1 := res.Finished()
+	res.Finished() // ignore this one, we should still be safe
+	pre2 := res.Finished()
+	pre3 := res.Finished()
+
+	t.Log("Marking finished :", res.MarkFinished())
+
+	post1 := res.Finished()
+	post2 := res.Finished()
+	res.Finished() // ignore this one, we should still be safe
+	post3 := res.Finished()
+
+	t.Log("Marking finished :", res.MarkFinished())
+
+	for i := 10; i > 0; i-- {
+		select {
+
+		case <-pre1:
+			t.Log("Early Channel 1 closed properly")
+		case <-pre3:
+			t.Log("Early Channel 3 closed properly")
+		case <-pre2:
+			t.Log("Early Channel 2 closed properly")
+
+		case <-post1:
+			t.Log("Late Channel 1 closed properly")
+		case <-post3:
+			t.Log("Late Channel 3 closed properly")
+		case <-post2:
+			t.Log("Late Channel 2 closed properly")
+
+		case <-timeout:
+			t.Error("TIMEOUT", time.Since(now))
+		}
 	}
 }

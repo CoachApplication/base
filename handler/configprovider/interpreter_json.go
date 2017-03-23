@@ -22,9 +22,9 @@ type JsonConfig struct {
 
 // Marshall gets a configuration and apply it to a target struct
 func (jc *JsonConfig) Get(target interface{}) error {
-	if rc, err := jc.interpreter.Get
-	d := json.NewDecoder()
-	return d.Decode(target)
+	//if rc, err := jc.interpreter.Get
+	//d := json.NewDecoder()
+	//return d.Decode(target)
 }
 
 // UnMarshall sets a Config value by converting a passed struct into a configuration

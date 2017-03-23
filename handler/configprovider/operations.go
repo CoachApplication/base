@@ -18,17 +18,22 @@ func NewGetOperation(provider Provider) *GetOperation{
 	}
 }
 
+func (gon GetOperation) Validate(props api.Properties) api.Result {
+	return base.MakeSuccessfulResult()
+}
+
 func (gon GetOperation) Exec(props api.Properties) api.Result {
 	res := base.NewResult()
 
 	key := ""
-	if keyProp, found := props.Get(base_config.PROPERTY_KEY_KEY); found {
+	if keyProp, err := props.Get(base_config.PROPERTY_KEY_KEY); err == nil {
 		key = keyProp.Get().(string)
 	} else {
+		res.AddError(err)
 		res.AddError(base_errors.RequiredPropertyWasEmptyError{Key: base_config.PROPERTY_KEY_KEY})
 	}
 
-	scopedConfig := NewScopedConfig()
+	scopedConfig := base_config.NewStandardScopedConfig()
 	for _, scope := range gon.provider.Scopes() {
 		if config, err := gon.provider.Get(key, scope); err == nil {
 			scopedConfig.Set(scope, config)

@@ -5,6 +5,7 @@ import (
 	base "github.com/james-nesbitt/coach-base"
 	base_errors "github.com/james-nesbitt/coach-base/errors"
 	base_property "github.com/james-nesbitt/coach-base/property"
+	"errors"
 )
 
 const (
@@ -118,6 +119,19 @@ func (scp *ScopedConfigProperty) Ui() api.Ui {
 // Usage Provide Usage information about the element
 func (scp *ScopedConfigProperty) Usage() api.Usage {
 	return base.ReadonlyPropertyUsage{}.Usage()
+}
+
+// Validate That the property contains a valid value
+func (scp *ScopedConfigProperty) Validate() api.Result {
+	res := base.NewResult()
+
+	if scp.value == nil {
+		res.AddError(errors.New("No ScopedConfig Value has been set"))
+		res.MarkFailed()
+	}
+
+	res.MarkFinished()
+	return res.Result()
 }
 
 //

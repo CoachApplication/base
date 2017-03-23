@@ -9,6 +9,11 @@ import (
 	base "github.com/james-nesbitt/coach-base"
 )
 
+/**
+ * Here we test the accessors on our test config.  It is not a system test, but rather jsut a test to make sure that
+ * out testing struct behaves properly.
+ */
+
 func Test_TestStringConfig_Get(t *testing.T) {
 	c := NewTestStringConfig(t, "first", "one")
 
@@ -54,10 +59,10 @@ func Test_TestStringConfig_Set(t *testing.T) {
 		t.Error("TestConfig Get returned failed status")
 	}
 
-	if s != "two" {
+	if s == "one" {
+		t.Error("StringConfig did not apply the correct value to our test string, it still had it's constructor value", s)
+	} else if s != "two" {
 		t.Errorf("StringConfig did not apply the correct value to our test string : %s", s)
-	} else if s != "one" {
-		t.Error("StringConfig did not apply the correct value to our test string, it still had it's constructor value")
 	}
 }
 
@@ -75,6 +80,11 @@ func NewTestStringConfig(t *testing.T, id, val string) *TestStringConfig {
 		id:  id,
 		val: val,
 	}
+}
+
+// Config explicitly convert this to an Config interface
+func (tsc *TestStringConfig) Config() Config {
+	return Config(tsc)
 }
 
 // Marshall gets a configuration and apply it to a target struct
@@ -106,8 +116,8 @@ func (tsc *TestStringConfig) Set(source interface{}) api.Result {
 	if _, success := source.(string); success {
 		res.MarkSucceeded()
 		sv := reflect.ValueOf(source)
-		tsc.t.Log("reflect:", sv.Type(), sv.String())
 		tsc.val = sv.String()
+		tsc.t.Log("reflect:", tsc.val, sv.Type(), sv.String())
 	} else {
 		res.MarkFailed()
 		res.AddError(errors.New("Incorrect val type"))

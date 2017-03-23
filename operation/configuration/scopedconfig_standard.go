@@ -42,13 +42,13 @@ func (sc *StandardScopedConfig) Set(scope string, config Config) error {
 }
 
 // List available scopes
-func (sc *StandardScopedConfig) List() []string {
+func (sc *StandardScopedConfig) Order() []string {
 	sc.safe()
 	return sc.cOrder
 }
 
 func (sc *StandardScopedConfig) safe() {
-	if &sc.cMap == nil {
+	if sc.cMap == nil {
 		sc.cMap = map[string]Config{}
 		sc.cOrder = []string{}
 	}

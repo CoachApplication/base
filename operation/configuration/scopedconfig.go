@@ -7,5 +7,5 @@ type ScopedConfig interface {
 	// Set uses a passed Config to set a value to a scope
 	Set(scope string, config Config) error
 	// List available scopes
-	List() []string
+	Order() []string
 }

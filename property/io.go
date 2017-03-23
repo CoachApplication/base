@@ -20,8 +20,8 @@ func (rp *ReaderProperty) Type() string {
 }
 
 // Get retrieve a value from the Property
-func (rp *ReaderProperty) Get() (interface{}, error) {
-	return interface{}(rp.val), nil
+func (rp *ReaderProperty) Get() interface{} {
+	return interface{}(rp.val)
 }
 
 // Set assign a value to the Property
@@ -50,8 +50,8 @@ func (wp *WriterProperty) Type() string {
 }
 
 // Get retrieve a value from the Property
-func (wp *WriterProperty) Get() (interface{}, error) {
-	return interface{}(wp.val), nil
+func (wp *WriterProperty) Get() interface{} {
+	return interface{}(wp.val)
 }
 
 // Set assign a value to the Property
@@ -80,8 +80,8 @@ func (rcp *ReadWriterProperty) Type() string {
 }
 
 // Get retrieve a value from the Property
-func (rcp *ReadWriterProperty) Get() (interface{}, error) {
-	return interface{}(rcp.val), nil
+func (rcp *ReadWriterProperty) Get() interface{} {
+	return interface{}(rcp.val)
 }
 
 // Set assign a value to the Property
@@ -110,8 +110,8 @@ func (rcp *ReadCloserProperty) Type() string {
 }
 
 // Get retrieve a value from the Property
-func (rcp *ReadCloserProperty) Get() (interface{}, error) {
-	return interface{}(rcp.val), nil
+func (rcp *ReadCloserProperty) Get() interface{} {
+	return interface{}(rcp.val)
 }
 
 // Set assign a value to the Property

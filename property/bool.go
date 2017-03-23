@@ -16,8 +16,8 @@ func (bp *BoolProperty) Type() string {
 }
 
 // Get retrieve a value from the Property
-func (bp *BoolProperty) Get() (interface{}, error) {
-	return interface{}(bp.val), nil
+func (bp *BoolProperty) Get() interface{} {
+	return interface{}(bp.val)
 }
 
 // Set assign a value to the Property

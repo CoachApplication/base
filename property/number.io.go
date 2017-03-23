@@ -16,8 +16,8 @@ func (ip *IntProperty) Type() string {
 }
 
 // Get retrieve a value from the Property
-func (ip *IntProperty) Get() (interface{}, error) {
-	return interface{}(ip.val), nil
+func (ip *IntProperty) Get() interface{} {
+	return interface{}(ip.val)
 }
 
 // Set assign a value to the Property
@@ -46,8 +46,8 @@ func (fp *FloatProperty) Type() string {
 }
 
 // Get retrieve a value from the Property
-func (fp *FloatProperty) Get() (interface{}, error) {
-	return interface{}(fp.val), nil
+func (fp *FloatProperty) Get() interface{} {
+	return interface{}(fp.val)
 }
 
 // Set assign a value to the Property

@@ -18,8 +18,8 @@ func (cp *ContextProperty) Type() string {
 }
 
 // Get retrieve a value from the Property
-func (cp *ContextProperty) Get() (interface{}, error) {
-	return interface{}(cp.val), nil
+func (cp *ContextProperty) Get() interface{} {
+	return interface{}(cp.val)
 }
 
 // Set assign a value to the Property

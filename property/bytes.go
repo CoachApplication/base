@@ -1,5 +1,10 @@
 package property
 
+import (
+	api "github.com/james-nesbitt/coach-api"
+	base "github.com/james-nesbitt/coach-base"
+)
+
 // ByteProperty Base Property for Properties that hold a single byte
 type ByteProperty struct {
 	val byte
@@ -16,8 +21,13 @@ func (bp *ByteProperty) Type() string {
 }
 
 // Get retrieve a value from the Property
-func (bp *ByteProperty) Get() (interface{}, error) {
-	return interface{}(bp.val), nil
+func (bp *ByteProperty) Validate() api.Result {
+	return base.MakeSuccessfulResult()
+}
+
+// Get retrieve a value from the Property
+func (bp *ByteProperty) Get() interface{} {
+	return interface{}(bp.val)
 }
 
 // Set assign a value to the Property
@@ -46,8 +56,13 @@ func (bsp *ByteSliceProperty) Type() string {
 }
 
 // Get retrieve a value from the Property
-func (bsp *ByteSliceProperty) Get() (interface{}, error) {
-	return interface{}(bsp.val), nil
+func (bsp *ByteSliceProperty) Validate() api.Result {
+	return base.MakeSuccessfulResult()
+}
+
+// Get retrieve a value from the Property
+func (bsp *ByteSliceProperty) Get() interface{} {
+	return interface{}(bsp.val)
 }
 
 // Set assign a value to the Property
@@ -76,8 +91,13 @@ func (sp *StringProperty) Type() string {
 }
 
 // Get retrieve a value from the Property
-func (sp *StringProperty) Get() (interface{}, error) {
-	return interface{}(sp.val), nil
+func (sp *StringProperty) Validate() api.Result {
+	return base.MakeSuccessfulResult()
+}
+
+// Get retrieve a value from the Property
+func (sp *StringProperty) Get() interface{} {
+	return interface{}(sp.val)
 }
 
 // Set assign a value to the Property
@@ -106,8 +126,13 @@ func (ssp *StringSliceProperty) Type() string {
 }
 
 // Get retrieve a value from the Property
-func (ssp *StringSliceProperty) Get() (interface{}, error) {
-	return interface{}(ssp.val), nil
+func (ssp *StringSliceProperty) Validate() api.Result {
+	return base.MakeSuccessfulResult()
+}
+
+// Get retrieve a value from the Property
+func (ssp *StringSliceProperty) Get() interface{} {
+	return interface{}(ssp.val)
 }
 
 // Set assign a value to the Property

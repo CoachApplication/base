@@ -1,26 +1,27 @@
-package configprovider
+package configuration
 
 import (
-	base_config "github.com/james-nesbitt/coach-base/operation/configuration"
 	"fmt"
 )
 
-type ScopedConfig struct {
-	cMap map[string]base_config.Config
+// StandardScopedConfig A standard implementation of a ScopedConfig that just maintains an ordered map list
+type StandardScopedConfig struct {
+	cMap   map[string]Config
 	cOrder []string
 }
 
-func NewScopedConfig() *ScopedConfig {
-	return &ScopedConfig{}
+// NewStandardScopedConfig Constructor for StandardScopedConfig
+func NewStandardScopedConfig() *StandardScopedConfig {
+	return &StandardScopedConfig{}
 }
 
 // ScopedConfig Explicitly convert this struct to a config ScopedConfig interface
-func (sc *ScopedConfig) ScopedConfig() base_config.ScopedConfig {
-	return base_config.ScopedConfig(sc)
+func (sc *StandardScopedConfig) ScopedConfig() ScopedConfig {
+	return ScopedConfig(sc)
 }
 
 // Get a Config for a scope
-func (sc *ScopedConfig) Get(scope string) (base_config.Config, error) {
+func (sc *StandardScopedConfig) Get(scope string) (Config, error) {
 	sc.safe()
 	config, exists := sc.cMap[scope]
 	if exists {
@@ -29,8 +30,9 @@ func (sc *ScopedConfig) Get(scope string) (base_config.Config, error) {
 		return config, error(ConfigScopeNotFoundError{Scope: scope})
 	}
 }
+
 // Set uses a passed Config to set a value to a scope
-func (sc *ScopedConfig) Set(scope string, config base_config.Config) error {
+func (sc *StandardScopedConfig) Set(scope string, config Config) error {
 	sc.safe()
 	if _, exists := sc.cMap[scope]; !exists {
 		sc.cOrder = append(sc.cOrder, scope)
@@ -38,15 +40,16 @@ func (sc *ScopedConfig) Set(scope string, config base_config.Config) error {
 	sc.cMap[scope] = config
 	return nil
 }
+
 // List available scopes
-func (sc *ScopedConfig) List() []string {
+func (sc *StandardScopedConfig) List() []string {
 	sc.safe()
 	return sc.cOrder
 }
 
-func (sc *ScopedConfig) safe() {
+func (sc *StandardScopedConfig) safe() {
 	if &sc.cMap == nil {
-		sc.cMap = map[string]base_config.Config{}
+		sc.cMap = map[string]Config{}
 		sc.cOrder = []string{}
 	}
 }
@@ -55,6 +58,6 @@ type ConfigScopeNotFoundError struct {
 	Scope string
 }
 
-func (csnfe ConfigNotHandlerdError) Error() string {
+func (csnfe ConfigScopeNotFoundError) Error() string {
 	return fmt.Sprintf("Config was not found at the reqyested scope %s", csnfe.Scope)
 }

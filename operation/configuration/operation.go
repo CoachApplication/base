@@ -37,7 +37,7 @@ func (gob *GetOperationBase) Properties() coach_api.Properties {
 
 // Usage Define how the operations is intended to be used
 func (gob *GetOperationBase) Usage() coach_api.Usage {
-	return &(coach_base.InternalOperationUsage{}).Usage()
+	return (&coach_base.InternalOperationUsage{}).Usage()
 }
 
 // ListOperation Operation that produces a list of Config keys
@@ -51,7 +51,7 @@ func (lob *ListOperationBase) Id() string {
 // Usage Define UI metadata for the Operation
 func (lob *ListOperationBase) Ui() coach_api.Ui {
 	return coach_base.NewUi(
-		lob.Id(),                                                                                  // Id
+		lob.Id(),                                                                                 // Id
 		"List Configuration",                                                                     // Label
 		"List Configurations avaialble from a configuration backend",                             // Description
 		"Use this Operation to list stored configuration from the system configuration backend.", // Help
@@ -70,8 +70,7 @@ func (lob *ListOperationBase) Properties() coach_api.Properties {
 	return props.Properties()
 }
 
-
 // Usage Define how the operations is intended to be used
 func (lob *ListOperationBase) Usage() coach_api.Usage {
-	return &(coach_base.InternalOperationUsage{}).Usage()
+	return (&coach_base.InternalOperationUsage{}).Usage()
 }

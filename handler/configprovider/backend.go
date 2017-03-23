@@ -9,5 +9,4 @@ type Backend interface {
 	Scopes() []string
 	Keys() []string
 	Get(key, scope string) (base_config.Config, error)
-	Set(key, scope string, config base_config.Config) error
 }

@@ -13,6 +13,10 @@ type BackendUsage interface {
 
 type AllBackendUsage struct{}
 
+func (abu *AllBackendUsage) BackendUsage() BackendUsage {
+	return BackendUsage(abu)
+}
+
 func (abu *AllBackendUsage) Handles(key, scope string) bool {
 	return true
 }

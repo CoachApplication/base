@@ -79,6 +79,7 @@ func TestBackendConfigProvider_Get(t *testing.T) {
 	}
 }
 
+//
 func Test_sliceHasValue(t *testing.T) {
 	if sliceHasValue([]string{"A", "B", "C"}, "0") {
 		t.Error("sliceHasValue improperly recognized a key")
@@ -88,6 +89,7 @@ func Test_sliceHasValue(t *testing.T) {
 	}
 }
 
+// check if a value is in a slice
 func sliceHasValue(s []string, val string) bool {
 	for _, sval := range s {
 		if sval == val {
@@ -97,9 +99,11 @@ func sliceHasValue(s []string, val string) bool {
 	return false
 }
 
+// We use the unique string slice in the backend provider, so we should test that it works
 func Test_uniqueStringSlice(t *testing.T) {
 	s := uniqueStringSlice{}
 
+	// test adding strings
 	s.add("A")
 	sl1 := s.slice()
 	if len(sl1) != 1 {
@@ -108,6 +112,7 @@ func Test_uniqueStringSlice(t *testing.T) {
 		t.Error("uniqueStringSlice did not properly add a value")
 	}
 
+	// test adding further
 	s.add("B")
 	s.add("C")
 	sl2 := s.slice()
@@ -117,7 +122,7 @@ func Test_uniqueStringSlice(t *testing.T) {
 		t.Error("uniqueStringSlice did not properly add a value")
 	}
 
-
+	// test unique values
 	s.add("A")
 	sl3 := s.slice()
 	if len(sl3) != 3 {

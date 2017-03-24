@@ -46,6 +46,7 @@ func (jc *JsonConfig) Get(target interface{}) api.Result {
 	res := base.NewResult()
 
 	go func(key, scope string) {
+		defer res.MarkFinished()
 		if rc, err := jc.connector.Get(key, scope); err != nil {
 			res.AddError(err)
 			res.MarkFailed()
@@ -59,7 +60,6 @@ func (jc *JsonConfig) Get(target interface{}) api.Result {
 				res.MarkSucceeded()
 			}
 		}
-		res.MarkFinished()
 	}(jc.key, jc.scope)
 
 	return res.Result()
@@ -71,6 +71,8 @@ func (jc *JsonConfig) Set(source interface{}) api.Result {
 	res := base.NewResult()
 
 	go func(key, scope string) {
+		defer res.MarkFinished()
+
 		r, w := io.Pipe() // technically r is a ReaderCloser
 		defer w.Close()   // this we do to be responsible
 		defer r.Close()   // this we do in case the connector isn't responsible
@@ -87,7 +89,6 @@ func (jc *JsonConfig) Set(source interface{}) api.Result {
 				res.MarkSucceeded()
 			}
 		}
-		res.MarkFinished()
 	}(jc.key, jc.scope)
 
 	return res.Result()

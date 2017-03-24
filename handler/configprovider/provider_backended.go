@@ -1,8 +1,8 @@
 package configprovider
 
 import (
-	base_config "github.com/james-nesbitt/coach-base/operation/configuration"
 	"fmt"
+	base_config "github.com/james-nesbitt/coach-base/operation/configuration"
 )
 
 type BackendConfigProvider struct {
@@ -13,6 +13,10 @@ func NewBackendConfigProvider() *BackendConfigProvider {
 	return &BackendConfigProvider{
 		backends: []Backend{},
 	}
+}
+
+func (bcp *BackendConfigProvider) Provider() Provider {
+	return Provider(bcp)
 }
 
 func (bcp *BackendConfigProvider) Add(backend Backend) {

@@ -2,7 +2,7 @@ package standard
 
 import (
 	"fmt"
-	api "github.com/james-nesbitt/coach-api"
+	api "github.com/CoachApplication/coach-api"
 )
 
 //Operations Operations implementation that maintains an ordered list

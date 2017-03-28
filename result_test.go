@@ -4,7 +4,7 @@ import (
 	"errors"
 	"testing"
 
-	api "github.com/james-nesbitt/coach-api"
+	api "github.com/CoachApplication/coach-api"
 	"time"
 )
 

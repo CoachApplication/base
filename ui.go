@@ -1,7 +1,7 @@
 package standard
 
 import (
-	api "github.com/james-nesbitt/coach-api"
+	api "github.com/CoachApplication/coach-api"
 )
 
 // Standard Standard parametrized implementation of a UI that has some merging capability

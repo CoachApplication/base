@@ -1,16 +1,32 @@
-package standard
+package base_test
 
 import (
-	api "github.com/CoachApplication/coach-api"
 	"testing"
+
+	api "github.com/CoachApplication/coach-api"
+	base "github.com/CoachApplication/coach-base"
 )
 
 func Test_testPropertyId(t *testing.T) {
+	prop := NewTestProperty("one", "One", "Prop One", "", base.OptionalPropertyUsage{}.Usage())
 
+	id := prop.Id()
+	if id != "one" {
+		t.Error("Incorrect Property Id() returned :", id)
+	}
 }
 
 func Test_testPropertySet(t *testing.T) {
+	prop := NewTestProperty("two", "Two", "Prop Two", "", base.OptionalPropertyUsage{}.Usage())
 
+	var val int = 2
+	prop.Set(val)
+
+	if getVal, ok := prop.Get().(int); !ok {
+		t.Error("TestProperty returned incorrect val type")
+	} else if getVal != 2 {
+		t.Error("TestProperty returned incorrect val")
+	}
 }
 
 /**
@@ -33,7 +49,7 @@ type TestProperty struct {
 func NewTestProperty(id, label, description, help string, usage api.Usage) *TestProperty {
 
 	if usage == nil {
-		usage = (&OptionalPropertyUsage{}).Usage()
+		usage = (&base.OptionalPropertyUsage{}).Usage()
 	}
 
 	return &TestProperty{
@@ -58,13 +74,13 @@ func (tp *TestProperty) Usage() api.Usage {
 	return tp.usage
 }
 func (tp *TestProperty) Validate() api.Result {
-	res := NewResult()
+	res := base.NewResult()
 	res.MarkSucceeded()
 	res.MarkFinished()
 	return res.Result()
 }
 func (tp *TestProperty) Ui() api.Ui {
-	return NewUi(
+	return base.NewUi(
 		tp.id,
 		tp.label,
 		tp.description,

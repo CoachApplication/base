@@ -110,7 +110,7 @@ func (sp *StringProperty) Set(val interface{}) error {
 	}
 }
 
-// StringProperty Base Property for Properties that hold a single string
+// StringProperty Base Property for Properties that hold a string slice
 type StringSliceProperty struct {
 	val []string
 }
@@ -142,5 +142,41 @@ func (ssp *StringSliceProperty) Set(val interface{}) error {
 		return nil
 	} else {
 		return error(PropertyValWrongType{Id: ssp.Id(), Type: ssp.Type(), Val: val})
+	}
+}
+
+// StringProperty Base Property for Properties that hold a string keyed map of strings
+// @NOTE you should probably not use this, but rather use an operation which allows specification of a map key
+type StringMapProperty struct {
+	val map[string]string
+}
+
+// Id provides a machine name string for the property.  This should be unique in an operation.
+func (smp *StringMapProperty) Id() string {
+	return "StringMapProperty"
+}
+
+// Type string label for content type of property value
+func (smp *StringMapProperty) Type() string {
+	return "map[string]string"
+}
+
+// Get retrieve a value from the Property
+func (smp *StringMapProperty) Validate() api.Result {
+	return base.MakeSuccessfulResult()
+}
+
+// Get retrieve a value from the Property
+func (smp *StringMapProperty) Get() interface{} {
+	return interface{}(smp.val)
+}
+
+// Set assign a value to the Property
+func (smp *StringMapProperty) Set(val interface{}) error {
+	if typedVal, success := val.(map[string]string); success {
+		smp.val = typedVal
+		return nil
+	} else {
+		return error(PropertyValWrongType{Id: smp.Id(), Type: smp.Type(), Val: val})
 	}
 }

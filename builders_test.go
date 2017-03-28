@@ -1,11 +1,13 @@
-package standard
+package base_test
 
 import (
 	"testing"
+
+	base "github.com/CoachApplication/coach-base"
 )
 
 func TestSimpleBuilders_Add(t *testing.T) {
-	builders := NewBuilders()
+	builders := base.NewBuilders()
 
 	builders.Add(NewTestBuilder("test"))
 
@@ -19,7 +21,7 @@ func TestSimpleBuilders_Add(t *testing.T) {
 }
 
 func TestSimpleBuilders_Get(t *testing.T) {
-	builders := NewBuilders()
+	builders := base.NewBuilders()
 
 	builders.Add(NewTestBuilder("test"))
 
@@ -31,7 +33,7 @@ func TestSimpleBuilders_Get(t *testing.T) {
 }
 
 func TestSimpleBuilders_Order(t *testing.T) {
-	builders := NewBuilders()
+	builders := base.NewBuilders()
 
 	builders.Add(NewTestBuilder("test.1"))
 	builders.Add(NewTestBuilder("test.2"))

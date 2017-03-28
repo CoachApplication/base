@@ -1,7 +1,8 @@
-package standard
+package base_test
 
 import (
 	api "github.com/CoachApplication/coach-api"
+	base "github.com/CoachApplication/coach-base"
 )
 
 // TestBuilder that can be used for other testing
@@ -41,7 +42,7 @@ func (tb *TestBuilder) Activate(implementations []string, settings api.SettingsP
 
 // Validates Ask the builder if it is happy and willing to provide operations
 func (tb *TestBuilder) Validate() api.Result {
-	res := NewResult()
+	res := base.NewResult()
 	res.MarkSucceeded()
 	res.MarkFinished()
 	return res.Result()
@@ -49,7 +50,7 @@ func (tb *TestBuilder) Validate() api.Result {
 
 // Operations provide any Builder user with a set of Operation objects
 func (tb *TestBuilder) Operations() api.Operations {
-	ops := NewOperations()
+	ops := base.NewOperations()
 
 	for _, imp := range tb.implementations {
 		ops.Add(NewTestOperation(imp+".1", imp+"Test Operation 1", "", "", nil, nil).Operation())

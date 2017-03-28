@@ -1,15 +1,13 @@
-package standard
+package base_test
 
 import (
 	"testing"
+
+	base "github.com/CoachApplication/coach-base"
 )
 
-func TestNewOperations(t *testing.T) {
-
-}
-
 func TestOperations_Add(t *testing.T) {
-	ops := NewOperations()
+	ops := base.NewOperations()
 
 	ops.Add(NewTestOperation("test.1", "", "", "", nil, nil).Operation())
 
@@ -24,7 +22,7 @@ func TestOperations_Add(t *testing.T) {
 }
 
 func TestOperations_Get(t *testing.T) {
-	ops := NewOperations()
+	ops := base.NewOperations()
 
 	ops.Add(NewTestOperation("test.1", "", "", "", nil, nil).Operation())
 
@@ -39,7 +37,7 @@ func TestOperations_Get(t *testing.T) {
 }
 
 func TestOperations_List(t *testing.T) {
-	ops := NewOperations()
+	ops := base.NewOperations()
 
 	ops.Add(NewTestOperation("test.1", "", "", "", nil, nil).Operation())
 	ops.Add(NewTestOperation("test.2", "", "", "", nil, nil).Operation())

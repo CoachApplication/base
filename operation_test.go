@@ -1,7 +1,8 @@
-package standard
+package base_test
 
 import (
 	api "github.com/CoachApplication/coach-api"
+	base "github.com/CoachApplication/coach-base"
 )
 
 // TestOperation used for testing
@@ -21,10 +22,10 @@ func NewTestOperation(id, label, description, help string, props api.Properties,
 		id = "test"
 	}
 	if props == nil {
-		props = NewProperties().Properties()
+		props = base.NewProperties().Properties()
 	}
 	if usage == nil {
-		usage = (&OptionalPropertyUsage{}).Usage()
+		usage = (&base.OptionalPropertyUsage{}).Usage()
 	}
 
 	return &TestOperation{
@@ -49,7 +50,7 @@ func (to *TestOperation) Id() string {
 
 // UI Return a UI interaction definition for the Operation
 func (to *TestOperation) Ui() api.Ui {
-	return NewUi(
+	return base.NewUi(
 		to.id,
 		to.label,
 		to.description,
@@ -69,7 +70,7 @@ func (to *TestOperation) Properties() api.Properties {
 
 // Validate Validate that the Operation can Execute if passed proper Property data
 func (to *TestOperation) Validate() api.Result {
-	res := NewResult()
+	res := base.NewResult()
 	res.MarkSucceeded()
 	res.MarkFinished()
 	return res.Result()
@@ -77,7 +78,7 @@ func (to *TestOperation) Validate() api.Result {
 
 //Exec runs the operation from a Properties set, and return a result
 func (to *TestOperation) Exec(props api.Properties) api.Result {
-	res := NewResult()
+	res := base.NewResult()
 
 	res.MarkSucceeded()
 

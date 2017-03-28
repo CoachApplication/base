@@ -1,4 +1,4 @@
-package standard
+package base
 
 import (
 	api "github.com/CoachApplication/coach-api"
@@ -8,6 +8,14 @@ import (
 func MakeSuccessfulResult() api.Result {
 	res := NewResult()
 	res.MarkSucceeded()
+	res.MarkFinished()
+	return res.Result()
+}
+
+// MakeFailedResult Quickly make an api.Result which is already finished and marked failed
+func MakeFailedResult() api.Result {
+	res := NewResult()
+	res.MarkFailed()
 	res.MarkFinished()
 	return res.Result()
 }

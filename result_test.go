@@ -1,16 +1,17 @@
-package standard
+package base_test
 
 import (
 	"errors"
 	"testing"
+	"time"
 
 	api "github.com/CoachApplication/coach-api"
-	"time"
+	base "github.com/CoachApplication/coach-base"
 )
 
 // TestNewResult Test that the NewResult() function returns a struct that implements the api.Result interface
 func TestNewResult(t *testing.T) {
-	res := NewResult()
+	res := base.NewResult()
 
 	var i interface{} = res
 	if _, isResult := i.(api.Result); !isResult {
@@ -20,7 +21,7 @@ func TestNewResult(t *testing.T) {
 
 // TestResult_AddProperty test adding an retrieving properties to a Result
 func TestResult_AddProperty(t *testing.T) {
-	res := NewResult()
+	res := base.NewResult()
 
 	newProp := NewTestProperty("test.1", "", "", "", nil).Property()
 	newProp.Set(interface{}("one")) // we don't test the set/get here, do that in the property_test.go
@@ -49,7 +50,7 @@ func TestResult_AddProperty(t *testing.T) {
 
 // TestResult_AddError Test that if we add an error, we get it back
 func TestResult_AddError(t *testing.T) {
-	res := NewResult()
+	res := base.NewResult()
 
 	newErr := errors.New("test")
 	res.AddError(newErr)
@@ -64,7 +65,7 @@ func TestResult_AddError(t *testing.T) {
 
 // TestResult_MarkFailed Test that if we mark a Result as failed, then it returns a negative Success()
 func TestResult_MarkFailed(t *testing.T) {
-	res := NewResult()
+	res := base.NewResult()
 
 	res.MarkFailed()
 	if res.Success() {
@@ -74,7 +75,7 @@ func TestResult_MarkFailed(t *testing.T) {
 
 // TestResult_MarkSucceeded Test that if we mark a Result as successful, then it returns a positive Success()
 func TestResult_MarkSucceeded(t *testing.T) {
-	res := NewResult()
+	res := base.NewResult()
 
 	res.MarkSucceeded()
 	if !res.Success() {
@@ -84,11 +85,11 @@ func TestResult_MarkSucceeded(t *testing.T) {
 
 // TestResult_Merge Test that if we merge a Result into a Result, that it merges properly
 func TestResult_Merge(t *testing.T) {
-	res := NewResult()
+	res := base.NewResult()
 	res.AddError(errors.New("one"))
 	res.AddProperty(NewTestProperty("test.1", "", "", "", nil).Property())
 
-	merge := NewResult()
+	merge := base.NewResult()
 	merge.AddError(errors.New("two"))
 	merge.AddProperty(NewTestProperty("test.2", "", "", "", nil).Property())
 
@@ -110,10 +111,10 @@ func TestResult_Merge_Finished(t *testing.T) { // use this delay to prevent time
 	timeout := time.After(delay)
 	now := time.Now()
 
-	res := NewResult()
+	res := base.NewResult()
 
-	merge1 := NewResult()
-	merge2 := NewResult()
+	merge1 := base.NewResult()
+	merge2 := base.NewResult()
 
 	res.Merge(merge1.Result())
 	res.Merge(merge2.Result())
@@ -138,7 +139,7 @@ func TestResult_MarkFinished_Single(t *testing.T) {
 	timeout := time.After(delay)
 	now := time.Now()
 
-	res := NewResult()
+	res := base.NewResult()
 	fin := res.Finished()
 
 	res.MarkFinished()
@@ -156,7 +157,7 @@ func TestResult_MarkFinished_Multi(t *testing.T) { // use this delay to prevent 
 	timeout := time.After(delay)
 	now := time.Now()
 
-	res := NewResult()
+	res := base.NewResult()
 
 	pre1 := res.Finished()
 	res.Finished() // ignore this one, we should still be safe

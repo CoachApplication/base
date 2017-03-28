@@ -1,9 +1,13 @@
-package standard
+package base_test
 
-import "testing"
+import (
+	"testing"
 
-func commonUi() *Ui {
-	return NewUi("test.1", "Test", "This is a Test", "In order to use this test do X")
+	base "github.com/CoachApplication/coach-base"
+)
+
+func commonUi() *base.Ui {
+	return base.NewUi("test.1", "Test", "This is a Test", "In order to use this test do X")
 }
 
 func TestUi_Id(t *testing.T) {
@@ -38,7 +42,7 @@ func TestUi_Merge(t *testing.T) {
 	ui := commonUi()
 
 	// Test overriding values
-	merge := NewUi("test.2", "Test 2", "This is another Test", "In order to use this test do Y")
+	merge := base.NewUi("test.2", "Test 2", "This is another Test", "In order to use this test do Y")
 	ui.Merge(merge.Ui())
 
 	if ui.Id() != "test.2" {
@@ -55,7 +59,7 @@ func TestUi_Merge(t *testing.T) {
 	}
 
 	// Test that empty values get ignored.
-	merge = NewUi("test.3", "", "", "")
+	merge = base.NewUi("test.3", "", "", "")
 	ui.Merge(merge.Ui())
 
 	if ui.Id() != "test.3" {

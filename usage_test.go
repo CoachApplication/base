@@ -1,13 +1,14 @@
-package standard
+package base_test
 
 import (
 	"testing"
 
 	api "github.com/CoachApplication/coach-api"
+	base "github.com/CoachApplication/coach-base"
 )
 
 func TestExternalOperationUsage_Allows(t *testing.T) {
-	us := (&ExternalOperationUsage{}).Usage()
+	us := (&base.ExternalOperationUsage{}).Usage()
 
 	if !us.Allows(api.UsageOperationPublicView) {
 		t.Error("ExternalOperation usage did not Allow Public Viewing")
@@ -18,7 +19,7 @@ func TestExternalOperationUsage_Allows(t *testing.T) {
 }
 
 func TestInternalOperationUsage_Allows(t *testing.T) {
-	us := (&InternalOperationUsage{}).Usage()
+	us := (&base.InternalOperationUsage{}).Usage()
 
 	if us.Allows(api.UsageOperationPublicView) {
 		t.Error("InternalOperation usage Allowed Public Viewing")
@@ -29,7 +30,7 @@ func TestInternalOperationUsage_Allows(t *testing.T) {
 }
 
 func TestOptionalPropertyUsage_Allows(t *testing.T) {
-	us := (&OptionalPropertyUsage{}).Usage()
+	us := (&base.OptionalPropertyUsage{}).Usage()
 
 	if !us.Allows(api.UsagePropertyPublicView) {
 		t.Error("OptionalPropertyUsage usage did not Allow Public Viewing")
@@ -43,7 +44,7 @@ func TestOptionalPropertyUsage_Allows(t *testing.T) {
 }
 
 func TestReadonlyPropertyUsage_Allows(t *testing.T) {
-	us := (&ReadonlyPropertyUsage{}).Usage()
+	us := (&base.ReadonlyPropertyUsage{}).Usage()
 
 	if !us.Allows(api.UsagePropertyPublicView) {
 		t.Error("ReadonlyPropertyUsage usage did not Allow Public Viewing")
@@ -54,7 +55,7 @@ func TestReadonlyPropertyUsage_Allows(t *testing.T) {
 }
 
 func TestRequiredPropertyUsage_Allows(t *testing.T) {
-	us := (&RequiredPropertyUsage{}).Usage()
+	us := (&base.RequiredPropertyUsage{}).Usage()
 
 	if !us.Allows(api.UsagePropertyPublicView) {
 		t.Error("OptionalPropertyUsage usage did not Allow Public Viewing")

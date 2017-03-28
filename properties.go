@@ -1,13 +1,13 @@
-package standard
+package base
 
 import (
-	api "github.com/CoachApplication/coach-api"
 	"fmt"
+	api "github.com/CoachApplication/coach-api"
 )
 
 // Properties is a simple Properties implementation that keeps an ordered list of Properties
 type Properties struct {
-	pMap map[string]api.Property
+	pMap   map[string]api.Property
 	pOrder []string
 }
 

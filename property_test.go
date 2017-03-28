@@ -3,8 +3,8 @@ package base_test
 import (
 	"testing"
 
-	api "github.com/CoachApplication/coach-api"
-	base "github.com/CoachApplication/coach-base"
+	api "github.com/CoachApplication/api"
+	base "github.com/CoachApplication/base"
 )
 
 func Test_testPropertyId(t *testing.T) {

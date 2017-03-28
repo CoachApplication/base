@@ -3,7 +3,7 @@ package null_test
 import (
 	"testing"
 
-	null "github.com/CoachApplication/coach-base/handler/null"
+	null "github.com/CoachApplication/base/handler/null"
 )
 
 func TestBuilder_Operations(t *testing.T) {

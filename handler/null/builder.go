@@ -1,9 +1,9 @@
 package null
 
 import (
-	api "github.com/CoachApplication/coach-api"
-	base "github.com/CoachApplication/coach-base"
-	utils "github.com/CoachApplication/coach-utils"
+	api "github.com/CoachApplication/api"
+	base "github.com/CoachApplication/base"
+	utils "github.com/CoachApplication/utils"
 )
 
 type Builder struct {

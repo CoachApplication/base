@@ -1,7 +1,7 @@
 package base
 
 import (
-	api "github.com/CoachApplication/coach-api"
+	api "github.com/CoachApplication/api"
 )
 
 // Application Simple implementation of the api.Application which maintains a list of Builder objects

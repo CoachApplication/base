@@ -1,7 +1,7 @@
 package base
 
 import (
-	api "github.com/CoachApplication/coach-api"
+	api "github.com/CoachApplication/api"
 )
 
 // UsageDecoratingProperty a Property decorator that overrides Usage with a provided Usage

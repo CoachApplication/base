@@ -3,7 +3,7 @@ package base_test
 import (
 	"testing"
 
-	base "github.com/CoachApplication/coach-base"
+	base "github.com/CoachApplication/base"
 )
 
 func TestSimpleBuilders_Add(t *testing.T) {

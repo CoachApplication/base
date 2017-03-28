@@ -2,7 +2,7 @@ package base
 
 import (
 	"fmt"
-	api "github.com/CoachApplication/coach-api"
+	api "github.com/CoachApplication/api"
 )
 
 // Properties is a simple Properties implementation that keeps an ordered list of Properties

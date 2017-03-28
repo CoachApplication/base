@@ -5,8 +5,8 @@ import (
 	"testing"
 	"time"
 
-	api "github.com/CoachApplication/coach-api"
-	base "github.com/CoachApplication/coach-base"
+	api "github.com/CoachApplication/api"
+	base "github.com/CoachApplication/base"
 )
 
 // TestNewResult Test that the NewResult() function returns a struct that implements the api.Result interface

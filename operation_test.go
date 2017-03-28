@@ -1,8 +1,8 @@
 package base_test
 
 import (
-	api "github.com/CoachApplication/coach-api"
-	base "github.com/CoachApplication/coach-base"
+	api "github.com/CoachApplication/api"
+	base "github.com/CoachApplication/base"
 )
 
 // TestOperation used for testing

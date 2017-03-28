@@ -1,7 +1,7 @@
 package base
 
 import (
-	api "github.com/CoachApplication/coach-api"
+	api "github.com/CoachApplication/api"
 )
 
 // MakeSuccessfulResult Quickly make an api.Result which is already finished and marked successful

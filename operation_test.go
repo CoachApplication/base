@@ -69,19 +69,11 @@ func (to *TestOperation) Properties() api.Properties {
 }
 
 // Validate Validate that the Operation can Execute if passed proper Property data
-func (to *TestOperation) Validate() api.Result {
-	res := base.NewResult()
-	res.MarkSucceeded()
-	res.MarkFinished()
-	return res.Result()
+func (to *TestOperation) Validate(props api.Properties) api.Result {
+	return base.MakeSuccessfulResult()
 }
 
 //Exec runs the operation from a Properties set, and return a result
 func (to *TestOperation) Exec(props api.Properties) api.Result {
-	res := base.NewResult()
-
-	res.MarkSucceeded()
-
-	res.MarkFinished()
-	return res.Result()
+	return base.MakeSuccessfulResult()
 }

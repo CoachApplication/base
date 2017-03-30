@@ -1,6 +1,9 @@
 package errors
 
-import "fmt"
+import (
+	"context"
+	"fmt"
+)
 
 type RequiredPropertyWasNotProvidedError struct {
 	Key string
@@ -8,7 +11,7 @@ type RequiredPropertyWasNotProvidedError struct {
 
 // Error return error string (interface: error)
 func (rpwnpe RequiredPropertyWasNotProvidedError) Error() string {
-	return fmt.Sprintf("REquired Property was not provided : %s",rpwnpe.Key)
+	return fmt.Sprintf("REquired Property was not provided : %s", rpwnpe.Key)
 }
 
 type RequiredPropertyWasEmptyError struct {
@@ -17,5 +20,14 @@ type RequiredPropertyWasEmptyError struct {
 
 // Error return error string (interface: error)
 func (rpwee RequiredPropertyWasEmptyError) Error() string {
-	return fmt.Sprintf("REquired Property was not provided : %s",rpwee.Key)
+	return fmt.Sprintf("REquired Property was not provided : %s", rpwee.Key)
+}
+
+type OperationTimedOut struct {
+	Ctx context.Context
+}
+
+// Error return error string (interface: error)
+func (oto OperationTimedOut) Error() string {
+	return fmt.Sprintf("Required Property was not provided : %s", oto.Ctx.Err().Error())
 }

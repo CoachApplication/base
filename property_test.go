@@ -8,7 +8,7 @@ import (
 )
 
 func Test_testPropertyId(t *testing.T) {
-	prop := NewTestProperty("one", "One", "Prop One", "", base.OptionalPropertyUsage{}.Usage())
+	prop := NewTestProperty("one", "One", "Prop One", "", base.OptionalPropertyUsage{}.Usage(), true)
 
 	id := prop.Id()
 	if id != "one" {
@@ -17,7 +17,7 @@ func Test_testPropertyId(t *testing.T) {
 }
 
 func Test_testPropertySet(t *testing.T) {
-	prop := NewTestProperty("two", "Two", "Prop Two", "", base.OptionalPropertyUsage{}.Usage())
+	prop := NewTestProperty("two", "Two", "Prop Two", "", base.OptionalPropertyUsage{}.Usage(), true)
 
 	var val int = 2
 	prop.Set(val)
@@ -43,10 +43,12 @@ type TestProperty struct {
 	usage api.Usage
 	ui    api.Ui
 
+	valid bool
+
 	val interface{}
 }
 
-func NewTestProperty(id, label, description, help string, usage api.Usage) *TestProperty {
+func NewTestProperty(id, label, description, help string, usage api.Usage, valid bool) *TestProperty {
 
 	if usage == nil {
 		usage = (&base.OptionalPropertyUsage{}).Usage()
@@ -58,6 +60,7 @@ func NewTestProperty(id, label, description, help string, usage api.Usage) *Test
 		description: description,
 		help:        help,
 		usage:       usage,
+		valid:       valid,
 	}
 }
 
@@ -73,11 +76,8 @@ func (tp *TestProperty) Type() string {
 func (tp *TestProperty) Usage() api.Usage {
 	return tp.usage
 }
-func (tp *TestProperty) Validate() api.Result {
-	res := base.NewResult()
-	res.MarkSucceeded()
-	res.MarkFinished()
-	return res.Result()
+func (tp *TestProperty) Validate() bool {
+	return tp.valid
 }
 func (tp *TestProperty) Ui() api.Ui {
 	return base.NewUi(

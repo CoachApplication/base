@@ -30,7 +30,7 @@ func (udp *UsageDecoratingProperty) Ui() api.Ui {
 func (udp *UsageDecoratingProperty) Usage() api.Usage {
 	return udp.usage
 }
-func (udp *UsageDecoratingProperty) Validate() api.Result {
+func (udp *UsageDecoratingProperty) Validate() bool {
 	return udp.prop.Validate()
 }
 func (udp *UsageDecoratingProperty) Get() interface{} {

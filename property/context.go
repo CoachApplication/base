@@ -22,12 +22,8 @@ func (cp *ContextProperty) Type() string {
 }
 
 // Type string label for content type of property value
-func (cp *ContextProperty) Validate() api.Result {
-	if cp.val == nil {
-		return base.MakeFailedResult()
-	} else {
-		return base.MakeSuccessfulResult()
-	}
+func (cp *ContextProperty) Validate() bool {
+	return cp.val == nil
 }
 
 // Get retrieve a value from the Property

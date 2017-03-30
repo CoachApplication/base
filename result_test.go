@@ -23,7 +23,7 @@ func TestNewResult(t *testing.T) {
 func TestResult_AddProperty(t *testing.T) {
 	res := base.NewResult()
 
-	newProp := NewTestProperty("test.1", "", "", "", nil).Property()
+	newProp := NewTestProperty("test.1", "", "", "", nil, true).Property()
 	newProp.Set(interface{}("one")) // we don't test the set/get here, do that in the property_test.go
 
 	res.AddProperty(newProp)
@@ -87,11 +87,11 @@ func TestResult_MarkSucceeded(t *testing.T) {
 func TestResult_Merge(t *testing.T) {
 	res := base.NewResult()
 	res.AddError(errors.New("one"))
-	res.AddProperty(NewTestProperty("test.1", "", "", "", nil).Property())
+	res.AddProperty(NewTestProperty("test.1", "", "", "", nil, true).Property())
 
 	merge := base.NewResult()
 	merge.AddError(errors.New("two"))
-	merge.AddProperty(NewTestProperty("test.2", "", "", "", nil).Property())
+	merge.AddProperty(NewTestProperty("test.2", "", "", "", nil, true).Property())
 
 	res.Merge(merge.Result())
 

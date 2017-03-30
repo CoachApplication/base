@@ -56,8 +56,8 @@ func (bsp *ByteSliceProperty) Type() string {
 }
 
 // Get retrieve a value from the Property
-func (bsp *ByteSliceProperty) Validate() api.Result {
-	return base.MakeSuccessfulResult()
+func (bsp *ByteSliceProperty) Validate() bool {
+	return bsp.val != nil
 }
 
 // Get retrieve a value from the Property
@@ -91,8 +91,8 @@ func (sp *StringProperty) Type() string {
 }
 
 // Get retrieve a value from the Property
-func (sp *StringProperty) Validate() api.Result {
-	return base.MakeSuccessfulResult()
+func (sp *StringProperty) Validate() bool {
+	return true
 }
 
 // Get retrieve a value from the Property
@@ -126,8 +126,8 @@ func (ssp *StringSliceProperty) Type() string {
 }
 
 // Get retrieve a value from the Property
-func (ssp *StringSliceProperty) Validate() api.Result {
-	return base.MakeSuccessfulResult()
+func (ssp *StringSliceProperty) Validate() bool {
+	return ssp.val != nil
 }
 
 // Get retrieve a value from the Property
@@ -162,8 +162,8 @@ func (smp *StringMapProperty) Type() string {
 }
 
 // Get retrieve a value from the Property
-func (smp *StringMapProperty) Validate() api.Result {
-	return base.MakeSuccessfulResult()
+func (smp *StringMapProperty) Validate() bool {
+	return smp.val != nil
 }
 
 // Get retrieve a value from the Property

@@ -6,19 +6,19 @@ import (
 
 // Standard Standard parametrized implementation of a UI that has some merging capability
 type Ui struct {
-	id string
-	label string
+	id          string
+	label       string
 	description string
-	help string
+	help        string
 }
 
 // NewUi Create a new Ui from parametrized strings
 func NewUi(id, label, description, help string) *Ui {
 	return &Ui{
-		id: id,
-		label: label,
+		id:          id,
+		label:       label,
 		description: description,
-		help: help,
+		help:        help,
 	}
 }
 

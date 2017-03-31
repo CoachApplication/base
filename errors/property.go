@@ -3,7 +3,7 @@ package errors
 import "fmt"
 
 type PropertyWrongValueTypeError struct {
-	Id string
+	Id           string
 	ExpectedType string
 }
 

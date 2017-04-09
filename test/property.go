@@ -1,33 +1,14 @@
-package base_test
+package test
 
 import (
-	"testing"
-
 	api "github.com/CoachApplication/api"
 	base "github.com/CoachApplication/base"
+	"github.com/CoachApplication/base/property"
 )
 
-func Test_testPropertyId(t *testing.T) {
-	prop := NewTestProperty("one", "One", "Prop One", "", base.OptionalPropertyUsage{}.Usage(), true)
-
-	id := prop.Id()
-	if id != "one" {
-		t.Error("Incorrect Property Id() returned :", id)
-	}
-}
-
-func Test_testPropertySet(t *testing.T) {
-	prop := NewTestProperty("two", "Two", "Prop Two", "", base.OptionalPropertyUsage{}.Usage(), true)
-
-	var val int = 2
-	prop.Set(val)
-
-	if getVal, ok := prop.Get().(int); !ok {
-		t.Error("TestProperty returned incorrect val type")
-	} else if getVal != 2 {
-		t.Error("TestProperty returned incorrect val")
-	}
-}
+const (
+	PROPERTY_ID_OPERATIONVALID = "test.validop"
+)
 
 /**
  * Test structs
@@ -93,4 +74,28 @@ func (tp *TestProperty) Get() interface{} {
 func (tp *TestProperty) Set(val interface{}) error {
 	tp.val = val
 	return nil
+}
+
+type ValidOperationProperty struct {
+	property.BoolProperty
+}
+func (vop *ValidOperationProperty) Property() api.Property {
+	return api.Property(vop)
+}
+func (vop *ValidOperationProperty) Id() string {
+	return PROPERTY_ID_OPERATIONVALID
+}
+func (vop *ValidOperationProperty) Usage() api.Usage {
+	return base.RequiredPropertyUsage{}.Usage()
+}
+func (vop *ValidOperationProperty) Validate() bool {
+	return true
+}
+func (vop *ValidOperationProperty) Ui() api.Ui {
+	return base.NewUi(
+		vop.Id(),
+		"Valid",
+		"Test Operation is valid",
+		"",
+	)
 }

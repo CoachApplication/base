@@ -7,6 +7,7 @@ import (
 
 	api "github.com/CoachApplication/api"
 	base "github.com/CoachApplication/base"
+	test "github.com/CoachApplication/base/test"
 )
 
 // TestNewResult Test that the NewResult() function returns a struct that implements the api.Result interface
@@ -23,7 +24,7 @@ func TestNewResult(t *testing.T) {
 func TestResult_AddProperty(t *testing.T) {
 	res := base.NewResult()
 
-	newProp := NewTestProperty("test.1", "", "", "", nil, true).Property()
+	newProp := test.NewTestProperty("test.1", "", "", "", nil, true).Property()
 	newProp.Set(interface{}("one")) // we don't test the set/get here, do that in the property_test.go
 
 	res.AddProperty(newProp)
@@ -87,11 +88,11 @@ func TestResult_MarkSucceeded(t *testing.T) {
 func TestResult_Merge(t *testing.T) {
 	res := base.NewResult()
 	res.AddError(errors.New("one"))
-	res.AddProperty(NewTestProperty("test.1", "", "", "", nil, true).Property())
+	res.AddProperty(test.NewTestProperty("test.1", "", "", "", nil, true).Property())
 
 	merge := base.NewResult()
 	merge.AddError(errors.New("two"))
-	merge.AddProperty(NewTestProperty("test.2", "", "", "", nil, true).Property())
+	merge.AddProperty(test.NewTestProperty("test.2", "", "", "", nil, true).Property())
 
 	res.Merge(merge.Result())
 

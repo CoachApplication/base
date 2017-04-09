@@ -1,4 +1,4 @@
-package base_test
+package test
 
 import (
 	api "github.com/CoachApplication/api"
@@ -25,7 +25,7 @@ func NewTestOperation(id, label, description, help string, props api.Properties,
 		props = base.NewProperties().Properties()
 	}
 	if usage == nil {
-		usage = (&base.OptionalPropertyUsage{}).Usage()
+		usage = (&base.ExternalOperationUsage{}).Usage()
 	}
 
 	return &TestOperation{
@@ -77,3 +77,4 @@ func (to *TestOperation) Validate(props api.Properties) api.Result {
 func (to *TestOperation) Exec(props api.Properties) api.Result {
 	return base.MakeSuccessfulResult()
 }
+

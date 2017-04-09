@@ -4,12 +4,13 @@ import (
 	"testing"
 
 	base "github.com/CoachApplication/base"
+	test "github.com/CoachApplication/base/test"
 )
 
 func TestSimpleBuilders_Add(t *testing.T) {
 	builders := base.NewBuilders()
 
-	builders.Add(NewTestBuilder("test"))
+	builders.Add(test.NewTestBuilder("test"))
 
 	bList := builders.Order()
 
@@ -23,7 +24,7 @@ func TestSimpleBuilders_Add(t *testing.T) {
 func TestSimpleBuilders_Get(t *testing.T) {
 	builders := base.NewBuilders()
 
-	builders.Add(NewTestBuilder("test"))
+	builders.Add(test.NewTestBuilder("test"))
 
 	if getB, err := builders.Get("test"); err != nil {
 		t.Error("Builders did not retrieve set Builder")
@@ -35,9 +36,9 @@ func TestSimpleBuilders_Get(t *testing.T) {
 func TestSimpleBuilders_Order(t *testing.T) {
 	builders := base.NewBuilders()
 
-	builders.Add(NewTestBuilder("test.1"))
-	builders.Add(NewTestBuilder("test.2"))
-	builders.Add(NewTestBuilder("test.3"))
+	builders.Add(test.NewTestBuilder("test.1"))
+	builders.Add(test.NewTestBuilder("test.2"))
+	builders.Add(test.NewTestBuilder("test.3"))
 
 	bList := builders.Order()
 

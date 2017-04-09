@@ -1,4 +1,4 @@
-package base_test
+package test
 
 import (
 	api "github.com/CoachApplication/api"
@@ -58,3 +58,4 @@ func (tb *TestBuilder) Operations() api.Operations {
 
 	return ops.Operations()
 }
+

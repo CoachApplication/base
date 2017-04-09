@@ -4,12 +4,13 @@ import (
 	"testing"
 
 	base "github.com/CoachApplication/base"
+	test "github.com/CoachApplication/base/test"
 )
 
 func TestOperations_Add(t *testing.T) {
 	ops := base.NewOperations()
 
-	ops.Add(NewTestOperation("test.1", "", "", "", nil, nil).Operation())
+	ops.Add(test.NewTestOperation("test.1", "", "", "", nil, nil).Operation())
 
 	list := ops.Order()
 	if len(list) == 0 {
@@ -24,7 +25,7 @@ func TestOperations_Add(t *testing.T) {
 func TestOperations_Get(t *testing.T) {
 	ops := base.NewOperations()
 
-	ops.Add(NewTestOperation("test.1", "", "", "", nil, nil).Operation())
+	ops.Add(test.NewTestOperation("test.1", "", "", "", nil, nil).Operation())
 
 	list := ops.Order()
 	if len(list) == 0 {
@@ -39,9 +40,9 @@ func TestOperations_Get(t *testing.T) {
 func TestOperations_List(t *testing.T) {
 	ops := base.NewOperations()
 
-	ops.Add(NewTestOperation("test.1", "", "", "", nil, nil).Operation())
-	ops.Add(NewTestOperation("test.2", "", "", "", nil, nil).Operation())
-	ops.Add(NewTestOperation("test.3", "", "", "", nil, nil).Operation())
+	ops.Add(test.NewTestOperation("test.1", "", "", "", nil, nil).Operation())
+	ops.Add(test.NewTestOperation("test.2", "", "", "", nil, nil).Operation())
+	ops.Add(test.NewTestOperation("test.3", "", "", "", nil, nil).Operation())
 
 	list := ops.Order()
 	if len(list) == 0 {

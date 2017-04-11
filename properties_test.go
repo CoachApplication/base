@@ -1,9 +1,9 @@
 package base_test
 
 import (
-	"testing"
 	"github.com/CoachApplication/base"
 	"github.com/CoachApplication/base/test"
+	"testing"
 )
 
 func TestProperties_AddandGet(t *testing.T) {
@@ -29,7 +29,7 @@ func TestProperties_Order(t *testing.T) {
 		t.Error("Properties returned an empty list")
 	} else if len(list) != 4 {
 		t.Error("Properties returned the wrong number of ids: ", list)
-	} else if !(list[0] == "one" && list[1] == "two" && list[2] == "three" && list[3] == "four" ) {
+	} else if !(list[0] == "one" && list[1] == "two" && list[2] == "three" && list[3] == "four") {
 		t.Error("Properties returned the wrong ids in the wrong order: ", list)
 	}
 }

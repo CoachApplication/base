@@ -79,6 +79,7 @@ func (tp *TestProperty) Set(val interface{}) error {
 type ValidOperationProperty struct {
 	property.BoolProperty
 }
+
 func (vop *ValidOperationProperty) Property() api.Property {
 	return api.Property(vop)
 }

@@ -2,6 +2,7 @@ package test_test
 
 import (
 	"testing"
+
 	"github.com/CoachApplication/base"
 	"github.com/CoachApplication/base/test"
 )

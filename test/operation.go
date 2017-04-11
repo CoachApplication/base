@@ -77,4 +77,3 @@ func (to *TestOperation) Validate(props api.Properties) api.Result {
 func (to *TestOperation) Exec(props api.Properties) api.Result {
 	return base.MakeSuccessfulResult()
 }
-

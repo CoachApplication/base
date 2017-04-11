@@ -3,9 +3,9 @@ package test_test
 import (
 	"testing"
 
+	"github.com/CoachApplication/api"
 	"github.com/CoachApplication/base"
 	"github.com/CoachApplication/base/test"
-	"github.com/CoachApplication/api"
 )
 
 func TestTestOperation_Id(t *testing.T) {
@@ -50,6 +50,10 @@ func TestTestOperation_Usage(t *testing.T) {
 		t.Error("TestOperation Usage internal says that id doesn allow execute")
 	}
 }
+
+/**
+ * @TODO decide how these tests should work
+ */
 
 func TestTestOperation_Validate(t *testing.T) {
 

@@ -6,6 +6,8 @@ import (
 	"github.com/CoachApplication/api"
 	"github.com/CoachApplication/base"
 	"github.com/CoachApplication/base/test"
+	"time"
+	"context"
 )
 
 func TestTestOperation_Id(t *testing.T) {
@@ -51,14 +53,90 @@ func TestTestOperation_Usage(t *testing.T) {
 	}
 }
 
-/**
- * @TODO decide how these tests should work
- */
 
-func TestTestOperation_Validate(t *testing.T) {
+func TestNewSuccessfulValidOperation(t *testing.T) {
+	dur, _ := time.ParseDuration("2s")
+	ctx, _ := context.WithTimeout(context.Background(), dur)
 
+	op := test.NewSuccessfulValidOperation("success")
+
+	props := op.Properties()
+
+	res := op.Validate(props)
+	select {
+	case <-res.Finished():
+		if !res.Success() {
+			t.Error("SuccessfulValidOperation says that it is invalid")
+		}
+	case <-ctx.Done():
+		t.Error("SuccessfulValidOperation validate timed out")
+	}
+
+	res = op.Exec(props)
+	select {
+	case <-res.Finished():
+		if !res.Success() {
+			t.Error("SuccessfulValidOperation returned failed result")
+		}
+	case <-ctx.Done():
+		t.Error("SuccessfulValidOperation execute timed out")
+	}
 }
 
-func TestTestOperation_Exec(t *testing.T) {
+func TestNewFailedValidOperation(t *testing.T) {
+	dur, _ := time.ParseDuration("2s")
+	ctx, _ := context.WithTimeout(context.Background(), dur)
 
+	op := test.NewFailedValidOperation("faile")
+
+	props := op.Properties()
+
+	res := op.Validate(props)
+	select {
+	case <-res.Finished():
+		if !res.Success() {
+			t.Error("NewFailedValidOperation says that it is invalid")
+		}
+	case <-ctx.Done():
+		t.Error("NewFailedValidOperation validate timed out")
+	}
+
+	res = op.Exec(props)
+	select {
+	case <-res.Finished():
+		if res.Success() {
+			t.Error("NewFailedValidOperation returned successful result")
+		}
+	case <-ctx.Done():
+		t.Error("NewFailedValidOperation execute timed out")
+	}
+}
+
+func TestNewInValidOperation(t *testing.T) {
+	dur, _ := time.ParseDuration("2s")
+	ctx, _ := context.WithTimeout(context.Background(), dur)
+
+	op := test.NewInValidOperation("invalid")
+
+	props := op.Properties()
+
+	res := op.Validate(props)
+	select {
+	case <-res.Finished():
+		if res.Success() {
+			t.Error("NewInValidOperation says that it is invalid")
+		}
+	case <-ctx.Done():
+		t.Error("NewInValidOperation validate timed out")
+	}
+
+	res = op.Exec(props)
+	select {
+	case <-res.Finished():
+		if res.Success() {
+			t.Error("NewInValidOperation returned failed result")
+		}
+	case <-ctx.Done():
+		t.Error("NewInValidOperation execute timed out")
+	}
 }

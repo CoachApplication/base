@@ -7,7 +7,8 @@ import (
 )
 
 const (
-	PROPERTY_ID_OPERATIONVALID = "test.validop"
+	PROPERTY_ID_OPERATIONVALID = "test.valid"
+	PROPERTY_ID_OPERATIONSUCCESS = "test.success"
 )
 
 /**
@@ -96,7 +97,32 @@ func (vop *ValidOperationProperty) Ui() api.Ui {
 	return base.NewUi(
 		vop.Id(),
 		"Valid",
-		"Test Operation is valid",
+		"Mark that the Test Operation should be valid",
+		"",
+	)
+}
+
+type SuccessfulOperationProperty struct {
+	property.BoolProperty
+}
+
+func (sop *SuccessfulOperationProperty) Property() api.Property {
+	return api.Property(sop)
+}
+func (vsop *SuccessfulOperationProperty) Id() string {
+	return PROPERTY_ID_OPERATIONSUCCESS
+}
+func (sop *SuccessfulOperationProperty) Usage() api.Usage {
+	return base.RequiredPropertyUsage{}.Usage()
+}
+func (sop *SuccessfulOperationProperty) Validate() bool {
+	return true
+}
+func (sop *SuccessfulOperationProperty) Ui() api.Ui {
+	return base.NewUi(
+		sop.Id(),
+		"Successful",
+		"Mark that the Test Operation should be successful",
 		"",
 	)
 }

@@ -3,6 +3,7 @@ package property
 import (
 	api "github.com/CoachApplication/api"
 	base "github.com/CoachApplication/base"
+	base_errors "github.com/CoachApplication/base/errors"
 )
 
 // ByteProperty Base Property for Properties that hold a single byte
@@ -36,7 +37,7 @@ func (bp *ByteProperty) Set(val interface{}) error {
 		bp.val = typedVal
 		return nil
 	} else {
-		return error(PropertyValWrongType{Id: bp.Id(), Type: bp.Type(), Val: val})
+		return error(base_errors.PropertyWrongValueTypeError{Id: bp.Id(), Type: bp.Type(), Val: val})
 	}
 }
 
@@ -71,7 +72,7 @@ func (bsp *ByteSliceProperty) Set(val interface{}) error {
 		bsp.val = typedVal
 		return nil
 	} else {
-		return error(PropertyValWrongType{Id: bsp.Id(), Type: bsp.Type(), Val: val})
+		return error(base_errors.PropertyWrongValueTypeError{Id: bsp.Id(), Type: bsp.Type(), Val: val})
 	}
 }
 
@@ -106,7 +107,7 @@ func (sp *StringProperty) Set(val interface{}) error {
 		sp.val = typedVal
 		return nil
 	} else {
-		return error(PropertyValWrongType{Id: sp.Id(), Type: sp.Type(), Val: val})
+		return error(base_errors.PropertyWrongValueTypeError{Id: sp.Id(), Type: sp.Type(), Val: val})
 	}
 }
 
@@ -141,7 +142,7 @@ func (ssp *StringSliceProperty) Set(val interface{}) error {
 		ssp.val = typedVal
 		return nil
 	} else {
-		return error(PropertyValWrongType{Id: ssp.Id(), Type: ssp.Type(), Val: val})
+		return error(base_errors.PropertyWrongValueTypeError{Id: ssp.Id(), Type: ssp.Type(), Val: val})
 	}
 }
 
@@ -177,6 +178,6 @@ func (smp *StringMapProperty) Set(val interface{}) error {
 		smp.val = typedVal
 		return nil
 	} else {
-		return error(PropertyValWrongType{Id: smp.Id(), Type: smp.Type(), Val: val})
+		return error(base_errors.PropertyWrongValueTypeError{Id: smp.Id(), Type: smp.Type(), Val: val})
 	}
 }

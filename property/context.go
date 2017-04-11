@@ -4,6 +4,7 @@ import (
 	"context"
 	api "github.com/CoachApplication/api"
 	base "github.com/CoachApplication/base"
+	base_errors "github.com/CoachApplication/base/errors"
 )
 
 // StringProperty Base Property for Properties that hold a single string
@@ -37,7 +38,7 @@ func (cp *ContextProperty) Set(val interface{}) error {
 		cp.val = typedVal
 		return nil
 	} else {
-		return error(PropertyValWrongType{Id: cp.Id(), Type: cp.Type(), Val: val})
+		return error(base_errors.PropertyWrongValueTypeError{Id: cp.Id(), Type: cp.Type(), Val: val})
 	}
 }
 

@@ -1,5 +1,9 @@
 package property
 
+import (
+	base_errors "github.com/CoachApplication/base/errors"
+)
+
 // BoolProperty Base Property for Properties that hold boolean data
 type BoolProperty struct {
 	val bool
@@ -26,6 +30,6 @@ func (bp *BoolProperty) Set(val interface{}) error {
 		bp.val = typedVal
 		return nil
 	} else {
-		return error(PropertyValWrongType{Id: bp.Id(), Type: bp.Type(), Val: val})
+		return error(base_errors.PropertyWrongValueTypeError{Id: bp.Id(), Type: bp.Type(), Val: val})
 	}
 }

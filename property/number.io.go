@@ -1,5 +1,9 @@
 package property
 
+import (
+	base_errors "github.com/CoachApplication/base/errors"
+)
+
 // IntProperty Base Property for Properties that hold an integer
 type IntProperty struct {
 	val int
@@ -26,7 +30,7 @@ func (ip *IntProperty) Set(val interface{}) error {
 		ip.val = typedVal
 		return nil
 	} else {
-		return error(PropertyValWrongType{Id: ip.Id(), Type: ip.Type(), Val: val})
+		return error(base_errors.PropertyWrongValueTypeError{Id: ip.Id(), Type: ip.Type(), Val: val})
 	}
 }
 
@@ -56,6 +60,6 @@ func (fp *FloatProperty) Set(val interface{}) error {
 		fp.val = typedVal
 		return nil
 	} else {
-		return error(PropertyValWrongType{Id: fp.Id(), Type: fp.Type(), Val: val})
+		return error(base_errors.PropertyWrongValueTypeError{Id: fp.Id(), Type: fp.Type(), Val: val})
 	}
 }

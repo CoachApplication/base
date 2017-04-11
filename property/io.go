@@ -1,6 +1,7 @@
 package property
 
 import (
+	base_errors "github.com/CoachApplication/base/errors"
 	"io"
 )
 
@@ -30,7 +31,7 @@ func (rp *ReaderProperty) Set(val interface{}) error {
 		rp.val = typedVal
 		return nil
 	} else {
-		return error(PropertyValWrongType{Id: rp.Id(), Type: rp.Type(), Val: val})
+		return error(base_errors.PropertyWrongValueTypeError{Id: rp.Id(), Type: rp.Type(), Val: val})
 	}
 }
 
@@ -60,7 +61,7 @@ func (wp *WriterProperty) Set(val interface{}) error {
 		wp.val = typedVal
 		return nil
 	} else {
-		return error(PropertyValWrongType{Id: wp.Id(), Type: wp.Type(), Val: val})
+		return error(base_errors.PropertyWrongValueTypeError{Id: wp.Id(), Type: wp.Type(), Val: val})
 	}
 }
 
@@ -90,7 +91,7 @@ func (rcp *ReadWriterProperty) Set(val interface{}) error {
 		rcp.val = typedVal
 		return nil
 	} else {
-		return error(PropertyValWrongType{Id: rcp.Id(), Type: rcp.Type(), Val: val})
+		return error(base_errors.PropertyWrongValueTypeError{Id: rcp.Id(), Type: rcp.Type(), Val: val})
 	}
 }
 
@@ -120,6 +121,6 @@ func (rcp *ReadCloserProperty) Set(val interface{}) error {
 		rcp.val = typedVal
 		return nil
 	} else {
-		return error(PropertyValWrongType{Id: rcp.Id(), Type: rcp.Type(), Val: val})
+		return error(base_errors.PropertyWrongValueTypeError{Id: rcp.Id(), Type: rcp.Type(), Val: val})
 	}
 }

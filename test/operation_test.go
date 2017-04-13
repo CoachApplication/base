@@ -53,7 +53,6 @@ func TestTestOperation_Usage(t *testing.T) {
 	}
 }
 
-
 func TestNewSuccessfulValidOperation(t *testing.T) {
 	dur, _ := time.ParseDuration("2s")
 	ctx, _ := context.WithTimeout(context.Background(), dur)

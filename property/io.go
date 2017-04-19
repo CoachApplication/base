@@ -20,6 +20,11 @@ func (rp *ReaderProperty) Type() string {
 	return "io.Reader"
 }
 
+// Validate boolean for if the Property value is valid (not nil)
+func (rp *ReaderProperty) Validate() bool {
+	return rp.val != nil
+}
+
 // Get retrieve a value from the Property
 func (rp *ReaderProperty) Get() interface{} {
 	return interface{}(rp.val)
@@ -50,6 +55,11 @@ func (wp *WriterProperty) Type() string {
 	return "io.Reader"
 }
 
+// Validate boolean for if the Property value is valid (not nil)
+func (wp *WriterProperty) Validate() bool {
+	return wp.val != nil
+}
+
 // Get retrieve a value from the Property
 func (wp *WriterProperty) Get() interface{} {
 	return interface{}(wp.val)
@@ -71,27 +81,32 @@ type ReadWriterProperty struct {
 }
 
 // Id provides a machine name string for the property.  This should be unique in an operation.
-func (rcp *ReadWriterProperty) Id() string {
+func (rwp *ReadWriterProperty) Id() string {
 	return "ReadWriterProperty"
 }
 
 // Type string label for content type of property value
-func (rcp *ReadWriterProperty) Type() string {
+func (rwp *ReadWriterProperty) Type() string {
 	return "io.ReadWriter"
 }
 
+// Validate boolean for if the Property value is valid (not nil)
+func (rwp *ReadWriterProperty) Validate() bool {
+	return rwp.val != nil
+}
+
 // Get retrieve a value from the Property
-func (rcp *ReadWriterProperty) Get() interface{} {
-	return interface{}(rcp.val)
+func (rwp *ReadWriterProperty) Get() interface{} {
+	return interface{}(rwp.val)
 }
 
 // Set assign a value to the Property
-func (rcp *ReadWriterProperty) Set(val interface{}) error {
+func (rwp *ReadWriterProperty) Set(val interface{}) error {
 	if typedVal, success := val.(io.ReadWriter); success {
-		rcp.val = typedVal
+		rwp.val = typedVal
 		return nil
 	} else {
-		return error(base_errors.PropertyWrongValueTypeError{Id: rcp.Id(), Type: rcp.Type(), Val: val})
+		return error(base_errors.PropertyWrongValueTypeError{Id: rwp.Id(), Type: rwp.Type(), Val: val})
 	}
 }
 
@@ -108,6 +123,11 @@ func (rcp *ReadCloserProperty) Id() string {
 // Type string label for content type of property value
 func (rcp *ReadCloserProperty) Type() string {
 	return "io.ReadWriter"
+}
+
+// Validate boolean for if the Property value is valid (not nil)
+func (rcp *ReadCloserProperty) Validate() bool {
+	return rcp.val != nil
 }
 
 // Get retrieve a value from the Property

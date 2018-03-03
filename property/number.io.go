@@ -19,6 +19,11 @@ func (ip *IntProperty) Type() string {
 	return "int"
 }
 
+// Validate the Property
+func (ip *IntProperty) Validate() bool {
+	return true
+}
+
 // Get retrieve a value from the Property
 func (ip *IntProperty) Get() interface{} {
 	return interface{}(ip.val)

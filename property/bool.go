@@ -19,6 +19,11 @@ func (bp *BoolProperty) Type() string {
 	return "bool"
 }
 
+// Validate the Property
+func (bp *BoolProperty) Validate() bool {
+	return true
+}
+
 // Get retrieve a value from the Property
 func (bp *BoolProperty) Get() interface{} {
 	return interface{}(bp.val)
